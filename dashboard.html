@@ -3,23 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LSPD Dashboard - Sistema di Gestione</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>LSPD - Sistema di Gestione</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-dark: #1a202c;
-            --secondary-dark: #2d3748;
-            --accent-blue: #3182ce;
-            --accent-gold: #d69e2e;
-            --text-light: #e2e8f0;
-            --text-muted: #a0aec0;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --shadow-dark: rgba(0, 0, 0, 0.3);
-            --success-green: #38a169;
-            --warning-yellow: #d69e2e;
-            --error-red: #e53e3e;
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --accent-color: #fbbf24;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --border-color: #334155;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
         }
 
         * {
@@ -30,297 +29,183 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
-            color: var(--text-light);
-            min-height: 100vh;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
         }
 
+        /* Main Layout */
         .dashboard-container {
             display: flex;
             min-height: 100vh;
         }
 
-        /* Professional Sidebar */
+        /* Sidebar */
         .sidebar {
             width: 280px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid var(--glass-border);
+            background: linear-gradient(135deg, var(--primary-color), #1e40af);
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
             overflow-y: auto;
-            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
         }
 
-        .sidebar-header {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--glass-border);
+        .logo {
             text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 2rem;
         }
 
-        .sidebar-header .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
-
-        .sidebar-header .logo i {
-            font-size: 2rem;
-            color: var(--accent-blue);
-            margin-right: 0.75rem;
-        }
-
-        .sidebar-header .logo span {
-            font-family: 'Roboto', sans-serif;
-            font-size: 1.3rem;
+        .logo h1 {
+            font-size: 1.8rem;
             font-weight: 700;
-            color: var(--text-light);
-        }
-
-        .user-info {
-            padding: 1.5rem;
-            border-bottom: 1px solid var(--glass-border);
-            text-align: center;
-        }
-
-        .user-avatar {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--accent-blue), var(--accent-gold));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-size: 1.5rem;
             color: white;
-            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
-        .user-details {
-            text-align: center;
-        }
-
-        .user-name {
-            font-weight: 600;
-            font-size: 1rem;
-            display: block;
-            margin-bottom: 0.25rem;
-            color: var(--text-light);
-        }
-
-        .user-badge {
-            color: var(--accent-blue);
-            font-size: 0.85rem;
+        .logo p {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
             font-weight: 500;
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-
-        .user-rank {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            padding: 0.25rem 0.75rem;
-            background: var(--glass-bg);
-            border-radius: 12px;
-            display: inline-block;
         }
 
         .nav-menu {
             list-style: none;
-            padding: 1rem;
-        }
-
-        .nav-section-title {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 1.5rem 0 0.75rem;
-            padding: 0 0.75rem;
+            padding: 0 1rem;
         }
 
         .nav-item {
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
         }
 
         .nav-link {
             display: flex;
             align-items: center;
-            padding: 0.875rem 0.75rem;
-            color: var(--text-muted);
+            padding: 1rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 12px;
             transition: all 0.3s ease;
-            font-size: 0.9rem;
-            position: relative;
-        }
-
-        .nav-link:hover {
-            background: var(--glass-bg);
-            color: var(--text-light);
-            transform: translateX(2px);
-        }
-
-        .nav-link.active {
-            background: rgba(49, 130, 206, 0.15);
-            color: var(--accent-blue);
             font-weight: 500;
         }
 
-        .nav-link.active::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: var(--accent-blue);
-            border-radius: 0 2px 2px 0;
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+            transform: translateX(5px);
         }
 
         .nav-link i {
-            margin-right: 0.875rem;
-            width: 18px;
+            margin-right: 1rem;
+            width: 20px;
             text-align: center;
         }
 
-        .logout-btn {
-            margin: 1.5rem 1rem 1rem;
-            padding: 0.875rem;
-            background: linear-gradient(135deg, var(--error-red), #c53030);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-            width: calc(100% - 2rem);
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logout-btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
-        }
-
-        .logout-btn i {
-            margin-right: 0.5rem;
-        }
-
-        /* Main Content Area */
+        /* Main Content */
         .main-content {
             flex: 1;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            margin-left: 280px;
+            background: var(--dark-bg);
+            min-height: 100vh;
         }
 
-        .top-bar {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 1rem 2rem;
+        /* Header */
+        .header {
+            background: var(--card-bg);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            min-height: 70px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(10px);
         }
 
-        .breadcrumb {
-            display: flex;
-            align-items: center;
-            color: var(--text-light);
-            font-weight: 500;
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .breadcrumb i {
-            margin-right: 0.5rem;
-            color: var(--accent-blue);
-        }
-
-        .top-bar-actions {
+        .user-menu {
             display: flex;
             align-items: center;
             gap: 1rem;
         }
 
-        .notification-bell {
-            position: relative;
+        .user-info {
+            text-align: right;
+        }
+
+        .user-info .name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .user-info .rank {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .logout-btn {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
             cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 6px;
+            font-weight: 500;
             transition: all 0.3s ease;
         }
 
-        .notification-bell:hover {
-            background: var(--glass-bg);
+        .logout-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
         }
 
-        .notification-bell i {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-        }
-
-        .notification-count {
-            position: absolute;
-            top: 0.25rem;
-            right: 0.25rem;
-            background: var(--error-red);
-            color: white;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-        }
-
-        .content-area {
-            flex: 1;
+        /* Content Sections */
+        .content-section {
+            display: none;
             padding: 2rem;
-            overflow-y: auto;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.02"/></svg>') repeat;
+            animation: fadeIn 0.3s ease;
         }
 
-        /* Dashboard Cards */
-        .page-header {
-            margin-bottom: 2rem;
+        .content-section.active {
+            display: block;
         }
 
-        .page-title {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--text-light);
-            margin-bottom: 0.5rem;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .page-subtitle {
-            color: var(--text-muted);
-            font-size: 1rem;
-        }
-
+        /* Cards */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
         .stat-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
+            background: linear-gradient(135deg, var(--card-bg), #334155);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
             position: relative;
             overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
         .stat-card::before {
@@ -329,796 +214,1750 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            height: 4px;
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
         }
 
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px var(--shadow-dark);
-        }
-
-        .stat-card:hover::before {
-            opacity: 1;
-        }
-
-        .stat-header {
-            display: flex;
-            justify-content: between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(49, 130, 206, 0.15);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
-
-        .stat-icon i {
-            font-size: 1.5rem;
-            color: var(--accent-blue);
-        }
-
-        .stat-number {
-            font-size: 2rem;
+        .stat-value {
+            font-size: 2.5rem;
             font-weight: 700;
-            color: var(--text-light);
-            display: block;
-            margin-bottom: 0.25rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
         }
 
         .stat-label {
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 1rem;
+            color: var(--text-secondary);
             font-weight: 500;
         }
 
-        .stat-change {
-            font-size: 0.8rem;
-            font-weight: 500;
-            margin-top: 0.5rem;
-        }
-
-        .stat-change.positive {
-            color: var(--success-green);
-        }
-
-        .stat-change.negative {
-            color: var(--error-red);
-        }
-
-        /* Content Cards */
-        .content-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 1px solid var(--glass-border);
-            transition: all 0.3s ease;
-        }
-
-        .card:hover {
-            box-shadow: 0 8px 25px var(--shadow-dark);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text-light);
-        }
-
-        .card-action {
-            color: var(--accent-blue);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .card-action:hover {
-            color: var(--accent-gold);
-        }
-
-        /* Activity Feed */
-        .activity-item {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .activity-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-
-        .activity-icon {
-            width: 36px;
-            height: 36px;
-            background: rgba(49, 130, 206, 0.15);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            flex-shrink: 0;
-        }
-
-        .activity-icon i {
-            color: var(--accent-blue);
-            font-size: 0.9rem;
-        }
-
-        .activity-content {
-            flex: 1;
-        }
-
-        .activity-title {
-            color: var(--text-light);
-            font-weight: 500;
-            font-size: 0.9rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .activity-description {
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            line-height: 1.4;
-        }
-
-        .activity-time {
-            color: var(--text-muted);
-            font-size: 0.75rem;
-            margin-top: 0.25rem;
-        }
-
-        /* Quick Actions */
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .action-btn {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            padding: 1rem;
-            color: var(--text-light);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            font-weight: 500;
-        }
-
-        .action-btn:hover {
-            background: rgba(49, 130, 206, 0.1);
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-            transform: translateY(-1px);
-        }
-
-        .action-btn i {
-            font-size: 1.1rem;
+        .stat-icon {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            color: var(--secondary-color);
+            opacity: 0.7;
         }
 
         /* Tables */
         .table-container {
-            background: var(--glass-bg);
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
+            background: var(--card-bg);
+            border-radius: 16px;
             overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-top: 2rem;
         }
 
-        .table {
+        .table-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), #1e40af);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        table {
             width: 100%;
             border-collapse: collapse;
         }
 
-        .table th,
-        .table td {
-            padding: 1rem;
+        th, td {
+            padding: 1rem 2rem;
             text-align: left;
-            border-bottom: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .table th {
-            background: rgba(255, 255, 255, 0.02);
-            color: var(--text-light);
+        th {
+            background: #1e293b;
+            color: var(--text-primary);
             font-weight: 600;
             font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .table td {
-            color: var(--text-muted);
-            font-size: 0.9rem;
+        td {
+            color: var(--text-secondary);
         }
 
-        .table tbody tr:hover {
-            background: rgba(255, 255, 255, 0.02);
+        tr:hover {
+            background: rgba(59, 130, 246, 0.1);
         }
 
+        /* Status Badges */
         .status-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
         .status-active {
-            background: rgba(56, 161, 105, 0.2);
-            color: var(--success-green);
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
         }
 
         .status-pending {
-            background: rgba(214, 158, 46, 0.2);
-            color: var(--warning-yellow);
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning-color);
         }
 
         .status-inactive {
-            background: rgba(160, 174, 192, 0.2);
-            color: var(--text-muted);
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger-color);
         }
 
-        /* Loading States */
-        .loading {
-            text-align: center;
+        /* Forms */
+        .form-container {
+            background: var(--card-bg);
             padding: 2rem;
-            color: var(--text-muted);
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            margin-top: 2rem;
         }
 
-        .spinner {
-            border: 3px solid rgba(49, 130, 206, 0.3);
-            border-top: 3px solid var(--accent-blue);
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
+        .form-group {
+            margin-bottom: 1.5rem;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
         }
 
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .content-grid {
-                grid-template-columns: 1fr;
-            }
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: scale(0.9) translateY(-20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h3 {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-left: auto;
+        }
+
+        .close-modal:hover {
+            color: var(--text-primary);
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
+                width: 250px;
                 transform: translateX(-100%);
-                position: fixed;
-                z-index: 1000;
-                height: 100vh;
+                transition: transform 0.3s ease;
             }
-            
-            .sidebar.open {
+
+            .sidebar.mobile-open {
                 transform: translateX(0);
             }
-            
+
             .main-content {
-                width: 100%;
+                margin-left: 0;
             }
-            
+
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-            
-            .content-area {
-                padding: 1rem;
-            }
-            
-            .top-bar {
-                padding: 1rem;
-            }
-            
-            .quick-actions {
+
+            .form-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        /* Page Sections */
-        .page-section {
-            display: none;
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
         }
 
-        .page-section.active {
-            display: block;
-            animation: fadeIn 0.3s ease-in;
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Alert Messages */
+        .alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger-color);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-group label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .filter-group select {
+            padding: 0.5rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .pagination button {
+            padding: 0.5rem 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover:not(:disabled) {
+            background: var(--secondary-color);
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination .active {
+            background: var(--secondary-color);
         }
     </style>
 </head>
 <body>
     <div class="dashboard-container">
         <!-- Sidebar -->
-        <nav class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="logo">
-                    <i class="fas fa-shield-alt"></i>
-                    <span>LSPD Sistema</span>
-                </div>
-            </div>
-            
-            <div class="user-info">
-                <div class="user-avatar">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div class="user-details">
-                    <span class="user-name" id="userName">Caricamento...</span>
-                    <span class="user-badge" id="userBadge">Caricamento...</span>
-                    <span class="user-rank" id="userRank">Caricamento...</span>
-                </div>
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>LSPD</h1>
+                <p>Sistema di Gestione</p>
             </div>
             
             <ul class="nav-menu">
-                <div class="nav-section-title">Principale</div>
                 <li class="nav-item">
-                    <a href="#dashboard" class="nav-link active" onclick="showSection('dashboard')">
+                    <a href="#" class="nav-link active" data-section="dashboard">
                         <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
+                        Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#profile" class="nav-link" onclick="showSection('profile')">
-                        <i class="fas fa-user"></i>
-                        <span>Profilo</span>
-                    </a>
-                </li>
-                
-                <div class="nav-section-title">Operazioni</div>
-                <li class="nav-item">
-                    <a href="#reports" class="nav-link" onclick="showSection('reports')">
-                        <i class="fas fa-file-alt"></i>
-                        <span>Report</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#dispatch" class="nav-link" onclick="showSection('dispatch')">
-                        <i class="fas fa-radio"></i>
-                        <span>Dispatch</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#evidence" class="nav-link" onclick="showSection('evidence')">
-                        <i class="fas fa-box"></i>
-                        <span>Prove</span>
-                    </a>
-                </li>
-                
-                <div class="nav-section-title">Gestione</div>
-                <li class="nav-item admin-only">
-                    <a href="#personnel" class="nav-link" onclick="showSection('personnel')">
+                    <a href="#" class="nav-link" data-section="personnel">
                         <i class="fas fa-users"></i>
-                        <span>Personale</span>
+                        Personale
                     </a>
                 </li>
-                <li class="nav-item admin-only">
-                    <a href="#analytics" class="nav-link" onclick="showSection('analytics')">
-                        <i class="fas fa-chart-bar"></i>
-                        <span>Analytics</span>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="reports">
+                        <i class="fas fa-file-alt"></i>
+                        Rapporti
                     </a>
                 </li>
-                <li class="nav-item admin-only">
-                    <a href="#settings" class="nav-link" onclick="showSection('settings')">
-                        <i class="fas fa-cog"></i>
-                        <span>Impostazioni</span>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="disciplinary">
+                        <i class="fas fa-gavel"></i>
+                        Procedimenti
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="rules">
+                        <i class="fas fa-book"></i>
+                        Regolamento
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="ranks">
+                        <i class="fas fa-star"></i>
+                        Gradi
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-section="profile">
+                        <i class="fas fa-user"></i>
+                        Profilo
                     </a>
                 </li>
             </ul>
-            
-            <button class="logout-btn" onclick="logout()">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </button>
         </nav>
-        
+
         <!-- Main Content -->
         <main class="main-content">
-            <header class="top-bar">
-                <div class="breadcrumb">
-                    <i class="fas fa-home"></i>
-                    <span id="currentPageTitle">Dashboard</span>
-                </div>
-                
-                <div class="top-bar-actions">
-                    <div class="notification-bell" onclick="toggleNotifications()">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-count" id="notificationCount">0</span>
+            <!-- Header -->
+            <header class="header">
+                <h1 id="page-title">Dashboard</h1>
+                <div class="user-menu">
+                    <div class="user-info">
+                        <div class="name" id="user-name">Caricamento...</div>
+                        <div class="rank" id="user-rank">Caricamento...</div>
                     </div>
-                    <span id="welcomeMessage">Sistema LSPD</span>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
                 </div>
             </header>
-            
-            <div class="content-area" id="contentArea">
-                <!-- Dashboard Section -->
-                <div id="dashboard" class="page-section active">
-                    <div class="page-header">
-                        <h1 class="page-title">Dashboard Operativo</h1>
-                        <p class="page-subtitle">Panoramica delle attività e statistiche del dipartimento</p>
+
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-officers">0</div>
+                        <div class="stat-label">Agenti Attivi</div>
+                        <i class="fas fa-users stat-icon"></i>
                     </div>
-                    
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <span class="stat-number" id="totalOfficers">--</span>
-                            <span class="stat-label">Agenti Totali</span>
-                            <div class="stat-change positive">
-                                <i class="fas fa-arrow-up"></i> +3 questo mese
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-user-check"></i>
-                            </div>
-                            <span class="stat-number" id="onDutyOfficers">--</span>
-                            <span class="stat-label">In Servizio</span>
-                            <div class="stat-change positive">
-                                <i class="fas fa-arrow-up"></i> +2 da ieri
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-file-alt"></i>
-                            </div>
-                            <span class="stat-number" id="reportsToday">--</span>
-                            <span class="stat-label">Report Oggi</span>
-                            <div class="stat-change positive">
-                                <i class="fas fa-arrow-up"></i> +12% vs ieri
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="stat-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <span class="stat-number" id="pendingReports">--</span>
-                            <span class="stat-label">In Attesa</span>
-                            <div class="stat-change negative">
-                                <i class="fas fa-arrow-down"></i> -5 da ieri
-                            </div>
-                        </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="total-reports">0</div>
+                        <div class="stat-label">Rapporti Totali</div>
+                        <i class="fas fa-file-alt stat-icon"></i>
                     </div>
-                    
-                    <div class="quick-actions">
-                        <a href="#reports" class="action-btn" onclick="showSection('reports')">
+                    <div class="stat-card">
+                        <div class="stat-value" id="pending-reports">0</div>
+                        <div class="stat-label">In Revisione</div>
+                        <i class="fas fa-clock stat-icon"></i>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="active-cases">0</div>
+                        <div class="stat-label">Casi Attivi</div>
+                        <i class="fas fa-gavel stat-icon"></i>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Rapporti Recenti</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Numero</th>
+                                <th>Titolo</th>
+                                <th>Tipo</th>
+                                <th>Agente</th>
+                                <th>Data</th>
+                                <th>Stato</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-reports">
+                            <!-- Content will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Attività Recenti</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Agente</th>
+                                <th>Badge</th>
+                                <th>Grado</th>
+                                <th>Ultimo Accesso</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-activity">
+                            <!-- Content will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Personnel Section -->
+            <section id="personnel" class="content-section">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Gestione Personale</h3>
+                        <button class="btn btn-success" onclick="openModal('add-personnel-modal')">
                             <i class="fas fa-plus"></i>
-                            <span>Nuovo Report</span>
-                        </a>
-                        <a href="#dispatch" class="action-btn" onclick="showSection('dispatch')">
-                            <i class="fas fa-radio"></i>
-                            <span>Centro Operativo</span>
-                        </a>
-                        <a href="#evidence" class="action-btn" onclick="showSection('evidence')">
-                            <i class="fas fa-search"></i>
-                            <span>Cerca Prove</span>
-                        </a>
-                        <a href="#personnel" class="action-btn" onclick="showSection('personnel')">
-                            <i class="fas fa-users-cog"></i>
-                            <span>Gestione Staff</span>
-                        </a>
+                            Aggiungi Agente
+                        </button>
                     </div>
-                    
-                    <div class="content-grid">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Attività Recenti</h3>
-                                <a href="#" class="card-action">Vedi tutto</a>
-                            </div>
-                            <div id="recentActivity">
-                                <div class="activity-item">
-                                    <div class="activity-icon">
-                                        <i class="fas fa-file-alt"></i>
-                                    </div>
-                                    <div class="activity-content">
-                                        <div class="activity-title">Nuovo report creato</div>
-                                        <div class="activity-description">Report incidente stradale - Via Main St</div>
-                                        <div class="activity-time">5 minuti fa</div>
-                                    </div>
-                                </div>
-                                <div class="activity-item">
-                                    <div class="activity-icon">
-                                        <i class="fas fa-user-plus"></i>
-                                    </div>
-                                    <div class="activity-content">
-                                        <div class="activity-title">Nuovo agente registrato</div>
-                                        <div class="activity-description">Agente Martinez assegnato al Distretto Nord</div>
-                                        <div class="activity-time">2 ore fa</div>
-                                    </div>
-                                </div>
-                                <div class="activity-item">
-                                    <div class="activity-icon">
-                                        <i class="fas fa-check-circle"></i>
-                                    </div>
-                                    <div class="activity-content">
-                                        <div class="activity-title">Report approvato</div>
-                                        <div class="activity-description">Report #2024-001234 approvato dal supervisore</div>
-                                        <div class="activity-time">4 ore fa</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Turni Oggi</h3>
-                                <a href="#personnel" class="card-action" onclick="showSection('personnel')">Gestisci</a>
-                            </div>
-                            <div class="table-container">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Agente</th>
-                                            <th>Turno</th>
-                                            <th>Stato</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>Officer Johnson</td>
-                                            <td>06:00-14:00</td>
-                                            <td><span class="status-badge status-active">Attivo</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Officer Davis</td>
-                                            <td>14:00-22:00</td>
-                                            <td><span class="status-badge status-pending">In Pausa</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Officer Wilson</td>
-                                            <td>22:00-06:00</td>
-                                            <td><span class="status-badge status-inactive">Libero</span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Badge</th>
+                                <th>Nome</th>
+                                <th>Grado</th>
+                                <th>Dipartimento</th>
+                                <th>Turno</th>
+                                <th>Stato</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="personnel-list">
+                            <!-- Content will be loaded dynamically -->
+                        </tbody>
+                    </table>
                 </div>
-                
-                <!-- Profile Section -->
-                <div id="profile" class="page-section">
-                    <div class="page-header">
-                        <h1 class="page-title">Profilo Personale</h1>
-                        <p class="page-subtitle">Gestisci le tue informazioni personali e preferenze</p>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports" class="content-section">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Stato</label>
+                        <select id="report-status-filter">
+                            <option value="">Tutti</option>
+                            <option value="Draft">Bozza</option>
+                            <option value="Submitted">Inviato</option>
+                            <option value="Under Review">In Revisione</option>
+                            <option value="Approved">Approvato</option>
+                            <option value="Rejected">Rifiutato</option>
+                        </select>
                     </div>
-                    
-                    <div class="content-grid">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Informazioni Personali</h3>
-                                <a href="#" class="card-action">Modifica</a>
-                            </div>
-                            <div id="profileInfo">
-                                <div class="loading">
-                                    <div class="spinner"></div>
-                                    <p>Caricamento informazioni...</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Statistiche Personali</h3>
-                            </div>
-                            <div class="stats-grid" style="grid-template-columns: 1fr;">
-                                <div class="stat-card">
-                                    <div class="stat-icon">
-                                        <i class="fas fa-calendar"></i>
-                                    </div>
-                                    <span class="stat-number">247</span>
-                                    <span class="stat-label">Giorni di Servizio</span>
-                                </div>
-                                <div class="stat-card">
-                                    <div class="stat-icon">
-                                        <i class="fas fa-file-alt"></i>
-                                    </div>
-                                    <span class="stat-number">89</span>
-                                    <span class="stat-label">Report Completati</span>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="filter-group">
+                        <label>Tipo</label>
+                        <select id="report-type-filter">
+                            <option value="">Tutti</option>
+                            <option value="Incident">Incidente</option>
+                            <option value="Traffic">Traffico</option>
+                            <option value="Arrest">Arresto</option>
+                            <option value="Investigation">Investigazione</option>
+                            <option value="Other">Altro</option>
+                        </select>
                     </div>
+                    <button class="btn" onclick="loadReports()">
+                        <i class="fas fa-filter"></i>
+                        Applica Filtri
+                    </button>
                 </div>
-                
-                <!-- Reports Section -->
-                <div id="reports" class="page-section">
-                    <div class="page-header">
-                        <h1 class="page-title">Gestione Report</h1>
-                        <p class="page-subtitle">Crea, modifica e gestisci i report operativi</p>
-                    </div>
-                    
-                    <div class="quick-actions">
-                        <a href="#" class="action-btn">
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Rapporti</h3>
+                        <button class="btn btn-success" onclick="openModal('add-report-modal')">
                             <i class="fas fa-plus"></i>
-                            <span>Nuovo Report</span>
-                        </a>
-                        <a href="#" class="action-btn">
-                            <i class="fas fa-search"></i>
-                            <span>Cerca Report</span>
-                        </a>
-                        <a href="#" class="action-btn">
-                            <i class="fas fa-download"></i>
-                            <span>Esporta Dati</span>
-                        </a>
+                            Nuovo Rapporto
+                        </button>
                     </div>
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Report Recenti</h3>
-                            <a href="#" class="card-action">Filtra</a>
-                        </div>
-                        <div class="table-container">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>ID Report</th>
-                                        <th>Tipo</th>
-                                        <th>Data</th>
-                                        <th>Stato</th>
-                                        <th>Azioni</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>#2024-001234</td>
-                                        <td>Incidente Stradale</td>
-                                        <td>05/09/2024</td>
-                                        <td><span class="status-badge status-active">Approvato</span></td>
-                                        <td>
-                                            <a href="#" class="card-action">Visualizza</a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>#2024-001235</td>
-                                        <td>Controllo Routine</td>
-                                        <td>05/09/2024</td>
-                                        <td><span class="status-badge status-pending">In Revisione</span></td>
-                                        <td>
-                                            <a href="#" class="card-action">Modifica</a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Numero</th>
+                                <th>Titolo</th>
+                                <th>Tipo</th>
+                                <th>Priorità</th>
+                                <th>Agente</th>
+                                <th>Data</th>
+                                <th>Stato</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reports-list">
+                            <!-- Content will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="reports-pagination">
+                        <!-- Pagination will be loaded dynamically -->
                     </div>
                 </div>
-                
-                <!-- Personnel Section (Admin Only) -->
-                <div id="personnel" class="page-section">
-                    <div class="page-header">
-                        <h1 class="page-title">Gestione Personale</h1>
-                        <p class="page-subtitle">Amministrazione del personale del dipartimento</p>
+            </section>
+
+            <!-- Disciplinary Section -->
+            <section id="disciplinary" class="content-section">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label>Stato</label>
+                        <select id="disciplinary-status-filter">
+                            <option value="">Tutti</option>
+                            <option value="Active">Attivo</option>
+                            <option value="Resolved">Risolto</option>
+                            <option value="Appealed">In Appello</option>
+                        </select>
                     </div>
-                    
-                    <div class="quick-actions">
-                        <a href="#" class="action-btn">
-                            <i class="fas fa-user-plus"></i>
-                            <span>Nuovo Agente</span>
-                        </a>
-                        <a href="#" class="action-btn">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span>Gestione Turni</span>
-                        </a>
-                        <a href="#" class="action-btn">
-                            <i class="fas fa-chart-line"></i>
-                            <span>Report Personale</span>
-                        </a>
+                    <div class="filter-group">
+                        <label>Tipo</label>
+                        <select id="disciplinary-type-filter">
+                            <option value="">Tutti</option>
+                            <option value="Warning">Avvertimento</option>
+                            <option value="Reprimand">Richiamo</option>
+                            <option value="Suspension">Sospensione</option>
+                            <option value="Termination">Licenziamento</option>
+                            <option value="Commendation">Encomio</option>
+                        </select>
                     </div>
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Personale del Dipartimento</h3>
-                            <a href="#" class="card-action">Filtri Avanzati</a>
-                        </div>
-                        <div class="table-container">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Badge</th>
-                                        <th>Nome</th>
-                                        <th>Grado</th>
-                                        <th>Dipartimento</th>
-                                        <th>Stato</th>
-                                        <th>Azioni</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="personnelTable">
-                                    <tr>
-                                        <td colspan="6">
-                                            <div class="loading">
-                                                <div class="spinner"></div>
-                                                <p>Caricamento dati personale...</p>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                    <button class="btn" onclick="loadDisciplinary()">
+                        <i class="fas fa-filter"></i>
+                        Applica Filtri
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Procedimenti Disciplinari</h3>
+                        <button class="btn btn-warning" onclick="openModal('add-disciplinary-modal')">
+                            <i class="fas fa-plus"></i>
+                            Nuovo Procedimento
+                        </button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Numero Caso</th>
+                                <th>Agente</th>
+                                <th>Tipo</th>
+                                <th>Motivo</th>
+                                <th>Gravità</th>
+                                <th>Emesso Da</th>
+                                <th>Data</th>
+                                <th>Stato</th>
+                            </tr>
+                        </thead>
+                        <tbody id="disciplinary-list">
+                            <!-- Content will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="disciplinary-pagination">
+                        <!-- Pagination will be loaded dynamically -->
                     </div>
                 </div>
-            </div>
+            </section>
+
+            <!-- Rules Section -->
+            <section id="rules" class="content-section">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Regolamento</h3>
+                        <button class="btn btn-success" onclick="openModal('add-rule-modal')" id="add-rule-btn" style="display: none;">
+                            <i class="fas fa-plus"></i>
+                            Aggiungi Regola
+                        </button>
+                    </div>
+                    <div id="rules-content">
+                        <!-- Rules will be loaded dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ranks Section -->
+            <section id="ranks" class="content-section">
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Gestione Gradi</h3>
+                        <button class="btn btn-success" onclick="openModal('add-rank-modal')" id="add-rank-btn" style="display: none;">
+                            <i class="fas fa-plus"></i>
+                            Aggiungi Grado
+                        </button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Livello</th>
+                                <th>Nome</th>
+                                <th>Può Gestire</th>
+                                <th>Permessi</th>
+                                <th>Azioni</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ranks-list">
+                            <!-- Content will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile" class="content-section">
+                <div class="form-container">
+                    <h3>Profilo Personale</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nome</label>
+                            <input type="text" class="form-control" id="profile-firstName" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Cognome</label>
+                            <input type="text" class="form-control" id="profile-lastName" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Badge</label>
+                            <input type="text" class="form-control" id="profile-badge" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" id="profile-email" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Grado</label>
+                            <input type="text" class="form-control" id="profile-rank" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Dipartimento</label>
+                            <input type="text" class="form-control" id="profile-department" readonly>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Cambia Password</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nuova Password</label>
+                            <input type="password" class="form-control" id="new-password">
+                        </div>
+                        <div class="form-group">
+                            <label>Conferma Password</label>
+                            <input type="password" class="form-control" id="confirm-password">
+                        </div>
+                    </div>
+                    <button class="btn btn-success" onclick="changePassword()">
+                        <i class="fas fa-save"></i>
+                        Aggiorna Password
+                    </button>
+                </div>
+            </section>
         </main>
     </div>
 
+    <!-- Modals -->
+    <!-- Add Personnel Modal -->
+    <div id="add-personnel-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Aggiungi Nuovo Agente</h3>
+                <button class="close-modal" onclick="closeModal('add-personnel-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="add-personnel-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nome *</label>
+                        <input type="text" class="form-control" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Cognome *</label>
+                        <input type="text" class="form-control" name="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Grado *</label>
+                        <select class="form-control" name="rankId" id="personnel-rank-select" required>
+                            <!-- Options will be loaded dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Dipartimento</label>
+                        <select class="form-control" name="department">
+                            <option value="Patrol">Pattuglia</option>
+                            <option value="Traffic">Traffico</option>
+                            <option value="Detective">Investigativo</option>
+                            <option value="SWAT">SWAT</option>
+                            <option value="Administration">Amministrazione</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Turno</label>
+                        <select class="form-control" name="shift">
+                            <option value="Day">Giorno</option>
+                            <option value="Evening">Sera</option>
+                            <option value="Night">Notte</option>
+                            <option value="All">Tutti</option>
+                        </select>
+                    </div>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i>
+                        Crea Agente
+                    </button>
+                    <button type="button" class="btn" onclick="closeModal('add-personnel-modal')">
+                        Annulla
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Report Modal -->
+    <div id="add-report-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuovo Rapporto</h3>
+                <button class="close-modal" onclick="closeModal('add-report-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="add-report-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Titolo *</label>
+                        <input type="text" class="form-control" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo *</label>
+                        <select class="form-control" name="type" required>
+                            <option value="">Seleziona tipo</option>
+                            <option value="Incident">Incidente</option>
+                            <option value="Traffic">Traffico</option>
+                            <option value="Arrest">Arresto</option>
+                            <option value="Investigation">Investigazione</option>
+                            <option value="Other">Altro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Priorità</label>
+                        <select class="form-control" name="priority">
+                            <option value="Low">Bassa</option>
+                            <option value="Medium" selected>Media</option>
+                            <option value="High">Alta</option>
+                            <option value="Critical">Critica</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ubicazione *</label>
+                        <input type="text" class="form-control" name="location" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Data e Ora *</label>
+                        <input type="datetime-local" class="form-control" name="date" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descrizione *</label>
+                    <textarea class="form-control" name="description" rows="4" required></textarea>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i>
+                        Crea Rapporto
+                    </button>
+                    <button type="button" class="btn" onclick="closeModal('add-report-modal')">
+                        Annulla
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Disciplinary Modal -->
+    <div id="add-disciplinary-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nuovo Procedimento Disciplinare</h3>
+                <button class="close-modal" onclick="closeModal('add-disciplinary-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="add-disciplinary-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Agente *</label>
+                        <select class="form-control" name="officerId" id="disciplinary-officer-select" required>
+                            <!-- Options will be loaded dynamically -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo *</label>
+                        <select class="form-control" name="type" required>
+                            <option value="">Seleziona tipo</option>
+                            <option value="Warning">Avvertimento</option>
+                            <option value="Reprimand">Richiamo</option>
+                            <option value="Suspension">Sospensione</option>
+                            <option value="Termination">Licenziamento</option>
+                            <option value="Commendation">Encomio</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Gravità</label>
+                        <select class="form-control" name="severity">
+                            <option value="Minor">Minore</option>
+                            <option value="Major">Maggiore</option>
+                            <option value="Severe">Grave</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Motivo *</label>
+                        <input type="text" class="form-control" name="reason" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Data di Scadenza</label>
+                        <input type="date" class="form-control" name="expiryDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descrizione *</label>
+                    <textarea class="form-control" name="description" rows="4" required></textarea>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-warning">
+                        <i class="fas fa-save"></i>
+                        Crea Procedimento
+                    </button>
+                    <button type="button" class="btn" onclick="closeModal('add-disciplinary-modal')">
+                        Annulla
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Rule Modal -->
+    <div id="add-rule-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Aggiungi Regola</h3>
+                <button class="close-modal" onclick="closeModal('add-rule-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="add-rule-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Sezione *</label>
+                        <input type="text" class="form-control" name="section" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Titolo *</label>
+                        <input type="text" class="form-control" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Ordine</label>
+                        <input type="number" class="form-control" name="order" value="1" min="1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Contenuto *</label>
+                    <textarea class="form-control" name="content" rows="4" required></textarea>
+                </div>
+                <div style="margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i>
+                        Aggiungi Regola
+                    </button>
+                    <button type="button" class="btn" onclick="closeModal('add-rule-modal')">
+                        Annulla
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Rank Modal -->
+    <div id="add-rank-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Aggiungi Grado</h3>
+                <button class="close-modal" onclick="closeModal('add-rank-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="add-rank-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nome *</label>
+                        <input type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Livello *</label>
+                        <input type="number" class="form-control" name="level" min="1" required>
+                    </div>
+                </div>
+                
+                <h4 style="margin: 1.5rem 0 1rem 0;">Permessi</h4>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="permissions" value="viewReports" checked> Visualizza Rapporti
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="permissions" value="createReports" checked> Crea Rapporti
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="permissions" value="managePersonnel"> Gestisci Personale
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="permissions" value="adminPanel"> Pannello Admin
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="permissions" value="manageRanks"> Gestisci Gradi
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="permissions" value="viewDisciplinary"> Visualizza Procedimenti
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="permissions" value="issueDisciplinary"> Emetti Procedimenti
+                        </label>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 1.5rem;">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i>
+                        Crea Grado
+                    </button>
+                    <button type="button" class="btn" onclick="closeModal('add-rank-modal')">
+                        Annulla
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // Auth Manager
-        class AuthManager {
+        class LSPDDashboard {
             constructor() {
                 this.apiUrl = 'https://lspd-bankend.onrender.com/api';
                 this.token = localStorage.getItem('lspd_token');
                 this.user = JSON.parse(localStorage.getItem('lspd_user') || 'null');
+                this.currentPage = {
+                    reports: 1,
+                    disciplinary: 1
+                };
+                
+                if (!this.token || !this.user) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                this.init();
+            }
+
+            async init() {
+                this.setupNavigation();
+                this.displayUserInfo();
+                this.loadDashboardData();
+                this.loadPermissions();
+                this.setupEventListeners();
+            }
+
+            setupNavigation() {
+                const navLinks = document.querySelectorAll('.nav-link');
+                const sections = document.querySelectorAll('.content-section');
+
+                navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const sectionId = link.dataset.section;
+                        
+                        // Update active states
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        sections.forEach(s => s.classList.remove('active'));
+                        
+                        link.classList.add('active');
+                        document.getElementById(sectionId).classList.add('active');
+                        
+                        // Update page title
+                        const titles = {
+                            'dashboard': 'Dashboard',
+                            'personnel': 'Gestione Personale',
+                            'reports': 'Rapporti',
+                            'disciplinary': 'Procedimenti Disciplinari',
+                            'rules': 'Regolamento',
+                            'ranks': 'Gestione Gradi',
+                            'profile': 'Profilo Personale'
+                        };
+                        document.getElementById('page-title').textContent = titles[sectionId] || 'Dashboard';
+                        
+                        // Load section data
+                        this.loadSectionData(sectionId);
+                    });
+                });
+            }
+
+            displayUserInfo() {
+                document.getElementById('user-name').textContent = `${this.user.firstName} ${this.user.lastName}`;
+                document.getElementById('user-rank').textContent = this.user.rank.name;
+                
+                // Fill profile form
+                document.getElementById('profile-firstName').value = this.user.firstName;
+                document.getElementById('profile-lastName').value = this.user.lastName;
+                document.getElementById('profile-badge').value = this.user.badge;
+                document.getElementById('profile-email').value = this.user.email;
+                document.getElementById('profile-rank').value = this.user.rank.name;
+                document.getElementById('profile-department').value = this.user.department;
+            }
+
+            loadPermissions() {
+                const permissions = this.user.rank.permissions;
+                
+                // Show/hide buttons based on permissions
+                if (permissions.managePersonnel) {
+                    document.querySelector('[data-section="personnel"]').style.display = 'block';
+                } else {
+                    document.querySelector('[data-section="personnel"]').style.display = 'none';
+                }
+                
+                if (permissions.viewDisciplinary) {
+                    document.querySelector('[data-section="disciplinary"]').style.display = 'block';
+                } else {
+                    document.querySelector('[data-section="disciplinary"]').style.display = 'none';
+                }
+                
+                if (permissions.manageRanks) {
+                    document.getElementById('add-rank-btn').style.display = 'inline-flex';
+                }
+                
+                if (permissions.adminPanel) {
+                    document.getElementById('add-rule-btn').style.display = 'inline-flex';
+                }
+            }
+
+            async loadSectionData(sectionId) {
+                switch(sectionId) {
+                    case 'personnel':
+                        await this.loadPersonnel();
+                        break;
+                    case 'reports':
+                        await this.loadReports();
+                        break;
+                    case 'disciplinary':
+                        await this.loadDisciplinary();
+                        break;
+                    case 'rules':
+                        await this.loadRules();
+                        break;
+                    case 'ranks':
+                        await this.loadRanks();
+                        break;
+                }
             }
 
             async apiCall(endpoint, options = {}) {
-                const url = `${this.apiUrl}${endpoint}`;
-                const config = {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${this.token}`,
-                        ...options.headers
-                    },
-                    ...options
-                };
-
                 try {
-                    const response = await fetch(url, config);
-                    
+                    const response = await fetch(`${this.apiUrl}${endpoint}`, {
+                        headers: {
+                            'Authorization': `Bearer ${this.token}`,
+                            'Content-Type': 'application/json',
+                            ...options.headers
+                        },
+                        ...options
+                    });
+
                     if (response.status === 401) {
                         this.logout();
                         return null;
                     }
+
+                    const data = await response.json();
                     
-                    return await response.json();
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Request failed');
+                    }
+                    
+                    return data;
                 } catch (error) {
                     console.error('API Error:', error);
-                    return null;
+                    this.showAlert(error.message, 'error');
+                    throw error;
                 }
+            }
+
+            async loadDashboardData() {
+                try {
+                    const data = await this.apiCall('/dashboard/stats');
+                    
+                    // Update stats
+                    document.getElementById('total-officers').textContent = data.stats.totalOfficers;
+                    document.getElementById('total-reports').textContent = data.stats.totalReports;
+                    document.getElementById('pending-reports').textContent = data.stats.pendingReports;
+                    document.getElementById('active-cases').textContent = data.stats.activeCases;
+                    
+                    // Load recent reports
+                    this.displayRecentReports(data.recentReports);
+                    this.displayRecentActivity(data.recentActivity);
+                    
+                } catch (error) {
+                    console.error('Failed to load dashboard data:', error);
+                }
+            }
+
+            displayRecentReports(reports) {
+                const tbody = document.getElementById('recent-reports');
+                tbody.innerHTML = '';
+                
+                reports.forEach(report => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${report.reportNumber}</td>
+                        <td>${report.title}</td>
+                        <td>${report.type}</td>
+                        <td>${report.officerInCharge.firstName} ${report.officerInCharge.lastName}</td>
+                        <td>${new Date(report.createdAt).toLocaleDateString()}</td>
+                        <td><span class="status-badge status-${report.status.toLowerCase().replace(' ', '-')}">${report.status}</span></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            displayRecentActivity(activities) {
+                const tbody = document.getElementById('recent-activity');
+                tbody.innerHTML = '';
+                
+                activities.forEach(activity => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${activity.firstName} ${activity.lastName}</td>
+                        <td>${activity.badge}</td>
+                        <td>${activity.rank.name}</td>
+                        <td>${activity.lastLogin ? new Date(activity.lastLogin).toLocaleString() : 'Mai'}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            async loadPersonnel() {
+                try {
+                    const personnel = await this.apiCall('/personnel');
+                    const tbody = document.getElementById('personnel-list');
+                    tbody.innerHTML = '';
+                    
+                    personnel.forEach(person => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${person.badge}</td>
+                            <td>${person.firstName} ${person.lastName}</td>
+                            <td>${person.rank.name}</td>
+                            <td>${person.department}</td>
+                            <td>${person.shift}</td>
+                            <td><span class="status-badge status-${person.status.toLowerCase()}">${person.status}</span></td>
+                            <td>
+                                <button class="btn btn-warning" onclick="editPersonnel('${person._id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                    
+                    // Load ranks for select
+                    await this.loadRanksForSelect();
+                    
+                } catch (error) {
+                    console.error('Failed to load personnel:', error);
+                }
+            }
+
+            async loadRanksForSelect() {
+                try {
+                    const ranks = await this.apiCall('/ranks');
+                    const select = document.getElementById('personnel-rank-select');
+                    const disciplinarySelect = document.getElementById('disciplinary-officer-select');
+                    
+                    select.innerHTML = '';
+                    
+                    ranks.forEach(rank => {
+                        const option = document.createElement('option');
+                        option.value = rank._id;
+                        option.textContent = rank.name;
+                        select.appendChild(option);
+                    });
+                    
+                    // Load personnel for disciplinary select
+                    const personnel = await this.apiCall('/personnel');
+                    disciplinarySelect.innerHTML = '';
+                    
+                    personnel.forEach(person => {
+                        const option = document.createElement('option');
+                        option.value = person._id;
+                        option.textContent = `${person.firstName} ${person.lastName} (${person.badge})`;
+                        disciplinarySelect.appendChild(option);
+                    });
+                    
+                } catch (error) {
+                    console.error('Failed to load ranks:', error);
+                }
+            }
+
+            async loadReports() {
+                try {
+                    const statusFilter = document.getElementById('report-status-filter').value;
+                    const typeFilter = document.getElementById('report-type-filter').value;
+                    
+                    const params = new URLSearchParams({
+                        page: this.currentPage.reports,
+                        limit: 10
+                    });
+                    
+                    if (statusFilter) params.append('status', statusFilter);
+                    if (typeFilter) params.append('type', typeFilter);
+                    
+                    const data = await this.apiCall(`/reports?${params}`);
+                    const tbody = document.getElementById('reports-list');
+                    tbody.innerHTML = '';
+                    
+                    data.reports.forEach(report => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${report.reportNumber}</td>
+                            <td>${report.title}</td>
+                            <td>${report.type}</td>
+                            <td><span class="status-badge status-${report.priority.toLowerCase()}">${report.priority}</span></td>
+                            <td>${report.officerInCharge.firstName} ${report.officerInCharge.lastName}</td>
+                            <td>${new Date(report.date).toLocaleDateString()}</td>
+                            <td><span class="status-badge status-${report.status.toLowerCase().replace(' ', '-')}">${report.status}</span></td>
+                            <td>
+                                <button class="btn btn-warning" onclick="editReport('${report._id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                    
+                    this.renderPagination('reports', data.currentPage, data.totalPages);
+                    
+                } catch (error) {
+                    console.error('Failed to load reports:', error);
+                }
+            }
+
+            async loadDisciplinary() {
+                try {
+                    const statusFilter = document.getElementById('disciplinary-status-filter').value;
+                    const typeFilter = document.getElementById('disciplinary-type-filter').value;
+                    
+                    const params = new URLSearchParams({
+                        page: this.currentPage.disciplinary,
+                        limit: 10
+                    });
+                    
+                    if (statusFilter) params.append('status', statusFilter);
+                    if (typeFilter) params.append('type', typeFilter);
+                    
+                    const data = await this.apiCall(`/disciplinary?${params}`);
+                    const tbody = document.getElementById('disciplinary-list');
+                    tbody.innerHTML = '';
+                    
+                    data.cases.forEach(case_ => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${case_.caseNumber}</td>
+                            <td>${case_.officer.firstName} ${case_.officer.lastName}</td>
+                            <td>${case_.type}</td>
+                            <td>${case_.reason}</td>
+                            <td><span class="status-badge status-${case_.severity.toLowerCase()}">${case_.severity}</span></td>
+                            <td>${case_.issuedBy.firstName} ${case_.issuedBy.lastName}</td>
+                            <td>${new Date(case_.dateIssued).toLocaleDateString()}</td>
+                            <td><span class="status-badge status-${case_.status.toLowerCase()}">${case_.status}</span></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                    
+                    this.renderPagination('disciplinary', data.currentPage, data.totalPages);
+                    
+                } catch (error) {
+                    console.error('Failed to load disciplinary cases:', error);
+                }
+            }
+
+            async loadRules() {
+                try {
+                    const rules = await this.apiCall('/rules');
+                    const content = document.getElementById('rules-content');
+                    
+                    // Group rules by section
+                    const groupedRules = rules.reduce((acc, rule) => {
+                        if (!acc[rule.section]) {
+                            acc[rule.section] = [];
+                        }
+                        acc[rule.section].push(rule);
+                        return acc;
+                    }, {});
+                    
+                    content.innerHTML = '';
+                    
+                    Object.keys(groupedRules).forEach(section => {
+                        const sectionDiv = document.createElement('div');
+                        sectionDiv.className = 'form-container';
+                        sectionDiv.style.marginBottom = '1.5rem';
+                        
+                        const sectionTitle = document.createElement('h3');
+                        sectionTitle.textContent = section;
+                        sectionTitle.style.marginBottom = '1rem';
+                        sectionDiv.appendChild(sectionTitle);
+                        
+                        groupedRules[section].forEach(rule => {
+                            const ruleDiv = document.createElement('div');
+                            ruleDiv.style.marginBottom = '1rem';
+                            ruleDiv.innerHTML = `
+                                <h4 style="color: var(--secondary-color); margin-bottom: 0.5rem;">${rule.title}</h4>
+                                <p style="color: var(--text-secondary);">${rule.content}</p>
+                                ${this.user.rank.permissions.adminPanel ? `
+                                    <button class="btn btn-warning" onclick="editRule('${rule._id}')">
+                                        <i class="fas fa-edit"></i> Modifica
+                                    </button>
+                                ` : ''}
+                            `;
+                            sectionDiv.appendChild(ruleDiv);
+                        });
+                        
+                        content.appendChild(sectionDiv);
+                    });
+                    
+                } catch (error) {
+                    console.error('Failed to load rules:', error);
+                }
+            }
+
+            async loadRanks() {
+                try {
+                    const ranks = await this.apiCall('/ranks');
+                    const tbody = document.getElementById('ranks-list');
+                    tbody.innerHTML = '';
+                    
+                    ranks.forEach(rank => {
+                        const canManageText = rank.canManage.length > 0 ? rank.canManage.join(', ') : 'Nessuno';
+                        const permissionsText = Object.keys(rank.permissions)
+                            .filter(key => rank.permissions[key])
+                            .map(key => key.replace(/([A-Z])/g, ' $1').toLowerCase())
+                            .join(', ');
+                        
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${rank.level}</td>
+                            <td>${rank.name}</td>
+                            <td>${canManageText}</td>
+                            <td>${permissionsText}</td>
+                            <td>
+                                ${this.user.rank.permissions.manageRanks ? `
+                                    <button class="btn btn-warning" onclick="editRank('${rank._id}')">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                ` : ''}
+                            </td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                    
+                } catch (error) {
+                    console.error('Failed to load ranks:', error);
+                }
+            }
+
+            renderPagination(type, currentPage, totalPages) {
+                const container = document.getElementById(`${type}-pagination`);
+                container.innerHTML = '';
+                
+                if (totalPages <= 1) return;
+                
+                // Previous button
+                const prevBtn = document.createElement('button');
+                prevBtn.textContent = 'Precedente';
+                prevBtn.disabled = currentPage === 1;
+                prevBtn.onclick = () => this.changePage(type, currentPage - 1);
+                container.appendChild(prevBtn);
+                
+                // Page numbers
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageBtn = document.createElement('button');
+                    pageBtn.textContent = i;
+                    pageBtn.className = i === currentPage ? 'active' : '';
+                    pageBtn.onclick = () => this.changePage(type, i);
+                    container.appendChild(pageBtn);
+                }
+                
+                // Next button
+                const nextBtn = document.createElement('button');
+                nextBtn.textContent = 'Successivo';
+                nextBtn.disabled = currentPage === totalPages;
+                nextBtn.onclick = () => this.changePage(type, currentPage + 1);
+                container.appendChild(nextBtn);
+            }
+
+            changePage(type, page) {
+                this.currentPage[type] = page;
+                if (type === 'reports') {
+                    this.loadReports();
+                } else if (type === 'disciplinary') {
+                    this.loadDisciplinary();
+                }
+            }
+
+            setupEventListeners() {
+                // Form submissions
+                document.getElementById('add-personnel-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.createPersonnel(e.target);
+                });
+                
+                document.getElementById('add-report-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.createReport(e.target);
+                });
+                
+                document.getElementById('add-disciplinary-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.createDisciplinary(e.target);
+                });
+                
+                document.getElementById('add-rule-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.createRule(e.target);
+                });
+                
+                document.getElementById('add-rank-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.createRank(e.target);
+                });
+            }
+
+            async createPersonnel(form) {
+                try {
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData);
+                    
+                    await this.apiCall('/personnel', {
+                        method: 'POST',
+                        body: JSON.stringify(data)
+                    });
+                    
+                    this.showAlert('Agente creato con successo', 'success');
+                    this.closeModal('add-personnel-modal');
+                    form.reset();
+                    this.loadPersonnel();
+                    
+                } catch (error) {
+                    console.error('Failed to create personnel:', error);
+                }
+            }
+
+            async createReport(form) {
+                try {
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData);
+                    
+                    await this.apiCall('/reports', {
+                        method: 'POST',
+                        body: JSON.stringify(data)
+                    });
+                    
+                    this.showAlert('Rapporto creato con successo', 'success');
+                    this.closeModal('add-report-modal');
+                    form.reset();
+                    this.loadReports();
+                    
+                } catch (error) {
+                    console.error('Failed to create report:', error);
+                }
+            }
+
+            async createDisciplinary(form) {
+                try {
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData);
+                    
+                    await this.apiCall('/disciplinary', {
+                        method: 'POST',
+                        body: JSON.stringify(data)
+                    });
+                    
+                    this.showAlert('Procedimento disciplinare creato con successo', 'success');
+                    this.closeModal('add-disciplinary-modal');
+                    form.reset();
+                    this.loadDisciplinary();
+                    
+                } catch (error) {
+                    console.error('Failed to create disciplinary case:', error);
+                }
+            }
+
+            async createRule(form) {
+                try {
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData);
+                    
+                    await this.apiCall('/rules', {
+                        method: 'POST',
+                        body: JSON.stringify(data)
+                    });
+                    
+                    this.showAlert('Regola aggiunta con successo', 'success');
+                    this.closeModal('add-rule-modal');
+                    form.reset();
+                    this.loadRules();
+                    
+                } catch (error) {
+                    console.error('Failed to create rule:', error);
+                }
+            }
+
+            async createRank(form) {
+                try {
+                    const formData = new FormData(form);
+                    const data = {
+                        name: formData.get('name'),
+                        level: parseInt(formData.get('level')),
+                        canManage: [],
+                        permissions: {}
+                    };
+                    
+                    // Process permissions
+                    const permissionsList = formData.getAll('permissions');
+                    data.permissions = {
+                        viewReports: permissionsList.includes('viewReports'),
+                        createReports: permissionsList.includes('createReports'),
+                        managePersonnel: permissionsList.includes('managePersonnel'),
+                        adminPanel: permissionsList.includes('adminPanel'),
+                        manageRanks: permissionsList.includes('manageRanks'),
+                        viewDisciplinary: permissionsList.includes('viewDisciplinary'),
+                        issueDisciplinary: permissionsList.includes('issueDisciplinary')
+                    };
+                    
+                    await this.apiCall('/ranks', {
+                        method: 'POST',
+                        body: JSON.stringify(data)
+                    });
+                    
+                    this.showAlert('Grado creato con successo', 'success');
+                    this.closeModal('add-rank-modal');
+                    form.reset();
+                    this.loadRanks();
+                    
+                } catch (error) {
+                    console.error('Failed to create rank:', error);
+                }
+            }
+
+            async changePassword() {
+                const newPassword = document.getElementById('new-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                
+                if (!newPassword || !confirmPassword) {
+                    this.showAlert('Compila tutti i campi', 'error');
+                    return;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                    this.showAlert('Le password non corrispondono', 'error');
+                    return;
+                }
+                
+                if (newPassword.length < 6) {
+                    this.showAlert('La password deve essere di almeno 6 caratteri', 'error');
+                    return;
+                }
+                
+                try {
+                    await this.apiCall('/auth/change-password', {
+                        method: 'POST',
+                        body: JSON.stringify({ newPassword })
+                    });
+                    
+                    this.showAlert('Password aggiornata con successo', 'success');
+                    document.getElementById('new-password').value = '';
+                    document.getElementById('confirm-password').value = '';
+                    
+                } catch (error) {
+                    console.error('Failed to change password:', error);
+                }
+            }
+
+            openModal(modalId) {
+                document.getElementById(modalId).classList.add('active');
+                
+                // Load data for modals that need it
+                if (modalId === 'add-personnel-modal' || modalId === 'add-disciplinary-modal') {
+                    this.loadRanksForSelect();
+                }
+            }
+
+            closeModal(modalId) {
+                document.getElementById(modalId).classList.remove('active');
+            }
+
+            showAlert(message, type = 'info') {
+                // Remove existing alerts
+                const existingAlerts = document.querySelectorAll('.alert');
+                existingAlerts.forEach(alert => alert.remove());
+                
+                // Create new alert
+                const alert = document.createElement('div');
+                alert.className = `alert alert-${type}`;
+                alert.textContent = message;
+                
+                // Insert at top of main content
+                const mainContent = document.querySelector('.main-content');
+                const header = document.querySelector('.header');
+                mainContent.insertBefore(alert, header.nextSibling);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    alert.remove();
+                }, 5000);
             }
 
             logout() {
@@ -1126,208 +1965,66 @@
                 localStorage.removeItem('lspd_user');
                 window.location.href = 'login.html';
             }
-
-            isAuthenticated() {
-                return !!this.token && !!this.user;
-            }
         }
 
-        const auth = new AuthManager();
-
-        // Check authentication
-        if (!auth.isAuthenticated()) {
-            window.location.href = 'login.html';
+        // Global functions for onclick handlers
+        function openModal(modalId) {
+            dashboard.openModal(modalId);
         }
 
-        // Navigation
-        function showSection(sectionId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('.page-section');
-            sections.forEach(section => section.classList.remove('active'));
-            
-            // Show selected section
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-            
-            // Update navigation
-            const navLinks = document.querySelectorAll('.nav-link');
-            navLinks.forEach(link => link.classList.remove('active'));
-            
-            const activeLink = document.querySelector(`[onclick="showSection('${sectionId}')"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
-            
-            // Update breadcrumb
-            const titles = {
-                'dashboard': 'Dashboard',
-                'profile': 'Profilo',
-                'reports': 'Report',
-                'dispatch': 'Dispatch',
-                'evidence': 'Prove',
-                'personnel': 'Personale',
-                'analytics': 'Analytics',
-                'settings': 'Impostazioni'
-            };
-            
-            document.getElementById('currentPageTitle').textContent = titles[sectionId] || 'Dashboard';
+        function closeModal(modalId) {
+            dashboard.closeModal(modalId);
         }
 
-        // Load user data
-        function loadUserData() {
-            if (auth.user) {
-                document.getElementById('userName').textContent = `${auth.user.firstName} ${auth.user.lastName}`;
-                document.getElementById('userBadge').textContent = auth.user.badgeNumber;
-                document.getElementById('userRank').textContent = auth.user.rank;
-                document.getElementById('welcomeMessage').textContent = `Benvenuto, ${auth.user.firstName}`;
-                
-                // Show/hide admin sections
-                if (!auth.user.isAdmin) {
-                    const adminItems = document.querySelectorAll('.admin-only');
-                    adminItems.forEach(item => item.style.display = 'none');
-                }
-                
-                // Load profile info
-                loadProfileInfo();
-            }
-        }
-
-        // Load profile information
-        function loadProfileInfo() {
-            const profileInfo = document.getElementById('profileInfo');
-            if (profileInfo && auth.user) {
-                profileInfo.innerHTML = `
-                    <div class="table-container">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td><strong>Nome Completo</strong></td>
-                                    <td>${auth.user.firstName} ${auth.user.lastName}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Numero Badge</strong></td>
-                                    <td>${auth.user.badgeNumber}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Grado</strong></td>
-                                    <td>${auth.user.rank}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Dipartimento</strong></td>
-                                    <td>${auth.user.department}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Permessi</strong></td>
-                                    <td>${auth.user.permissions ? auth.user.permissions.join(', ') : 'N/A'}</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Amministratore</strong></td>
-                                    <td><span class="status-badge ${auth.user.isAdmin ? 'status-active' : 'status-inactive'}">${auth.user.isAdmin ? 'Sì' : 'No'}</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `;
-            }
-        }
-
-        // Load dashboard stats
-        async function loadStats() {
-            const stats = await auth.apiCall('/dashboard/stats');
-            if (stats) {
-                document.getElementById('totalOfficers').textContent = stats.totalOfficers || '0';
-                document.getElementById('onDutyOfficers').textContent = stats.onDutyOfficers || '0';
-                document.getElementById('reportsToday').textContent = stats.reportsToday || '0';
-                document.getElementById('pendingReports').textContent = stats.pendingReports || '0';
-            }
-        }
-
-        // Load personnel data (admin only)
-        async function loadPersonnelData() {
-            if (!auth.user.isAdmin) return;
-            
-            const personnel = await auth.apiCall('/admin/users');
-            const table = document.getElementById('personnelTable');
-            
-            if (personnel && table) {
-                table.innerHTML = personnel.map(user => `
-                    <tr>
-                        <td>${user.badgeNumber}</td>
-                        <td>${user.firstName} ${user.lastName}</td>
-                        <td>${user.rank}</td>
-                        <td>${user.department}</td>
-                        <td><span class="status-badge status-${user.status.toLowerCase()}">${user.status}</span></td>
-                        <td>
-                            <a href="#" class="card-action">Modifica</a>
-                        </td>
-                    </tr>
-                `).join('');
-            }
-        }
-
-        // Load notifications
-        async function loadNotifications() {
-            const notifications = await auth.apiCall('/notifications');
-            if (notifications) {
-                document.getElementById('notificationCount').textContent = notifications.unreadCount || '0';
-            }
-        }
-
-        // Toggle notifications
-        function toggleNotifications() {
-            // Placeholder for notifications dropdown
-            alert('Funzionalità notifiche in sviluppo');
-        }
-
-        // Logout function
         function logout() {
-            if (confirm('Sei sicuro di voler uscire dal sistema?')) {
-                auth.logout();
-            }
+            dashboard.logout();
         }
 
-        // Mobile sidebar toggle
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('open');
+        function changePassword() {
+            dashboard.changePassword();
         }
 
-        // Initialize dashboard
+        function loadReports() {
+            dashboard.loadReports();
+        }
+
+        function loadDisciplinary() {
+            dashboard.loadDisciplinary();
+        }
+
+        function editPersonnel(id) {
+            dashboard.showAlert('Funzionalità di modifica in sviluppo', 'warning');
+        }
+
+        function editReport(id) {
+            dashboard.showAlert('Funzionalità di modifica in sviluppo', 'warning');
+        }
+
+        function editRule(id) {
+            dashboard.showAlert('Funzionalità di modifica in sviluppo', 'warning');
+        }
+
+        function editRank(id) {
+            dashboard.showAlert('Funzionalità di modifica in sviluppo', 'warning');
+        }
+
+        // Initialize dashboard when DOM is loaded
         document.addEventListener('DOMContentLoaded', () => {
-            loadUserData();
-            loadStats();
-            loadNotifications();
-            
-            // Load personnel data if admin
-            if (auth.user && auth.user.isAdmin) {
-                loadPersonnelData();
-            }
-            
-            // Auto-refresh stats every 5 minutes
-            setInterval(() => {
-                loadStats();
-                loadNotifications();
-            }, 300000);
+            window.dashboard = new LSPDDashboard();
         });
 
-        // Add mobile menu button for small screens
-        if (window.innerWidth <= 768) {
-            const topBar = document.querySelector('.top-bar');
-            const menuButton = document.createElement('button');
-            menuButton.innerHTML = '<i class="fas fa-bars"></i>';
-            menuButton.style.cssText = 'background: none; border: none; color: var(--text-light); font-size: 1.2rem; cursor: pointer; margin-right: 1rem;';
-            menuButton.onclick = toggleSidebar;
-            topBar.querySelector('.breadcrumb').prepend(menuButton);
+        // Close modals when clicking outside
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        });
+
+        // Mobile menu toggle (future implementation)
+        function toggleMobileMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('mobile-open');
         }
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                document.getElementById('sidebar').classList.remove('open');
-            }
-        });
     </script>
 </body>
 </html>
