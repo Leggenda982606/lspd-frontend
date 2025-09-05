@@ -3,20 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LSPD - Los Santos Police Department | FiveM Roleplay Server</title>
+    <title>LSPD - Los Santos Police Department | Sistema di Gestione</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-blue: #0a1a3a;
-            --secondary-blue: #1a3a6b;
-            --accent-gold: #ffd700;
-            --accent-orange: #ff6b35;
-            --dark-overlay: rgba(10, 26, 58, 0.9);
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --primary-dark: #1a202c;
+            --secondary-dark: #2d3748;
+            --accent-blue: #3182ce;
+            --accent-gold: #d69e2e;
+            --text-light: #e2e8f0;
+            --text-muted: #a0aec0;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow-dark: rgba(0, 0, 0, 0.3);
         }
 
         * {
@@ -27,28 +29,28 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--primary-blue);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+            color: var(--text-light);
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Enhanced Navigation */
+        /* Professional Navigation */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(10, 26, 58, 0.95);
+            background: rgba(26, 32, 44, 0.95);
             backdrop-filter: blur(20px);
-            border-bottom: 2px solid var(--accent-gold);
+            border-bottom: 1px solid var(--glass-border);
             padding: 1rem 0;
             z-index: 1000;
             transition: all 0.3s ease;
         }
 
         .navbar.scrolled {
-            background: rgba(10, 26, 58, 0.98);
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            background: rgba(26, 32, 44, 0.98);
+            box-shadow: 0 4px 20px var(--shadow-dark);
         }
 
         .nav-container {
@@ -63,20 +65,16 @@
         .logo {
             display: flex;
             align-items: center;
-            font-family: 'Orbitron', monospace;
-            font-size: 1.8rem;
-            font-weight: 900;
-            color: var(--accent-gold);
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
         }
 
         .logo i {
-            margin-right: 15px;
-            font-size: 2.2rem;
-            background: linear-gradient(45deg, var(--accent-gold), #fff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.7));
+            margin-right: 12px;
+            font-size: 1.8rem;
+            color: var(--accent-blue);
         }
 
         .nav-links {
@@ -86,107 +84,88 @@
         }
 
         .nav-links a {
-            color: white;
+            color: var(--text-muted);
             text-decoration: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
+            padding: 0.75rem 1.25rem;
+            border-radius: 6px;
             font-weight: 500;
+            font-size: 0.95rem;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-links a::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .nav-links a:hover::before {
-            left: 100%;
         }
 
         .nav-links a:hover {
             background: var(--glass-bg);
-            color: var(--accent-gold);
-            transform: translateY(-2px);
+            color: var(--text-light);
+            transform: translateY(-1px);
         }
 
-        /* Enhanced Hero Section */
+        .login-btn {
+            background: var(--accent-blue);
+            color: white !important;
+            font-weight: 600;
+        }
+
+        .login-btn:hover {
+            background: #2c5aa0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+        }
+
+        /* Hero Section */
         .hero {
             height: 100vh;
             background: 
-                linear-gradient(rgba(0,0,0,0.4), rgba(10, 26, 58, 0.8)),
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><defs><linearGradient id="cityscape" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23001122;stop-opacity:1" /><stop offset="50%" style="stop-color:%23003366;stop-opacity:1" /><stop offset="100%" style="stop-color:%23004488;stop-opacity:1" /></linearGradient></defs><rect width="1920" height="1080" fill="url(%23cityscape)"/><rect x="100" y="600" width="80" height="480" fill="%23001a33" opacity="0.8"/><rect x="200" y="500" width="100" height="580" fill="%23002244" opacity="0.8"/><rect x="320" y="650" width="60" height="430" fill="%23001a33" opacity="0.8"/><rect x="400" y="450" width="120" height="630" fill="%23002244" opacity="0.8"/><rect x="540" y="580" width="90" height="500" fill="%23001a33" opacity="0.8"/><rect x="650" y="400" width="110" height="680" fill="%23002244" opacity="0.8"/><rect x="780" y="520" width="80" height="560" fill="%23001a33" opacity="0.8"/><rect x="880" y="350" width="130" height="730" fill="%23002244" opacity="0.8"/><rect x="1030" y="480" width="100" height="600" fill="%23001a33" opacity="0.8"/><rect x="1150" y="420" width="90" height="660" fill="%23002244" opacity="0.8"/><rect x="1260" y="550" width="70" height="530" fill="%23001a33" opacity="0.8"/><rect x="1350" y="380" width="110" height="700" fill="%23002244" opacity="0.8"/><rect x="1480" y="500" width="85" height="580" fill="%23001a33" opacity="0.8"/><rect x="1580" y="320" width="120" height="760" fill="%23002244" opacity="0.8"/><rect x="1720" y="450" width="90" height="630" fill="%23001a33" opacity="0.8"/><circle cx="200" cy="480" r="3" fill="%23ffd700" opacity="0.8"/><circle cx="450" cy="420" r="3" fill="%23ffd700" opacity="0.8"/><circle cx="680" cy="380" r="3" fill="%23ffd700" opacity="0.8"/><circle cx="920" cy="330" r="3" fill="%23ffd700" opacity="0.8"/><circle cx="1180" cy="400" r="3" fill="%23ffd700" opacity="0.8"/><circle cx="1400" cy="360" r="3" fill="%23ffd700" opacity="0.8"/><circle cx="1620" cy="300" r="3" fill="%23ffd700" opacity="0.8"/></svg>') center/cover;
+                linear-gradient(rgba(26, 32, 44, 0.7), rgba(45, 55, 72, 0.8)),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%231a202c;stop-opacity:1" /><stop offset="50%" style="stop-color:%232d3748;stop-opacity:1" /><stop offset="100%" style="stop-color:%234a5568;stop-opacity:1" /></linearGradient></defs><rect width="1920" height="1080" fill="url(%23bg)"/><rect x="0" y="800" width="1920" height="280" fill="%23171923" opacity="0.6"/></svg>') center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at center, transparent 0%, rgba(10, 26, 58, 0.3) 70%);
-            z-index: 1;
         }
 
         .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 1000px;
+            max-width: 900px;
             padding: 2rem;
+            z-index: 2;
         }
 
         .hero-badge {
             background: var(--glass-bg);
             backdrop-filter: blur(15px);
             border: 1px solid var(--glass-border);
-            border-radius: 50px;
-            padding: 0.5rem 2rem;
+            border-radius: 25px;
+            padding: 0.5rem 1.5rem;
             display: inline-block;
             margin-bottom: 2rem;
-            font-weight: 600;
-            color: var(--accent-gold);
+            font-weight: 500;
+            color: var(--accent-blue);
+            font-size: 0.9rem;
             animation: slideInDown 1s ease-out;
         }
 
         .hero-content h1 {
-            font-family: 'Orbitron', monospace;
-            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
             font-weight: 900;
             margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--accent-gold) 0%, #fff 50%, var(--accent-gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 50px rgba(255, 215, 0, 0.3);
+            color: var(--text-light);
+            line-height: 1.1;
             animation: fadeInUp 1s ease-out 0.3s both;
         }
 
         .hero-subtitle {
-            font-size: clamp(1.2rem, 4vw, 2rem);
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
             margin-bottom: 2rem;
-            opacity: 0.95;
-            font-weight: 300;
-            letter-spacing: 0.5px;
+            color: var(--accent-blue);
+            font-weight: 600;
             animation: fadeInUp 1s ease-out 0.6s both;
         }
 
         .hero-description {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin-bottom: 3rem;
-            opacity: 0.8;
+            color: var(--text-muted);
             line-height: 1.6;
             max-width: 600px;
             margin-left: auto;
@@ -203,58 +182,41 @@
         }
 
         .cta-button {
-            background: linear-gradient(135deg, var(--accent-orange), #ff8c42);
+            background: var(--accent-blue);
             color: white;
-            padding: 18px 40px;
+            padding: 16px 32px;
             border: none;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 700;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            transition: all 0.4s ease;
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.6s;
-        }
-
-        .cta-button:hover::before {
-            left: 100%;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.2);
         }
 
         .cta-button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.5);
+            background: #2c5aa0;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(49, 130, 206, 0.3);
         }
 
         .cta-secondary {
-            background: var(--glass-bg);
-            backdrop-filter: blur(15px);
+            background: transparent;
             border: 2px solid var(--glass-border);
-            color: white;
+            color: var(--text-light);
         }
 
         .cta-secondary:hover {
-            background: rgba(255, 215, 0, 0.1);
-            border-color: var(--accent-gold);
-            color: var(--accent-gold);
+            background: var(--glass-bg);
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
         }
 
-        /* Enhanced Page Sections */
+        /* Content Sections */
         .page {
             display: none;
             padding: 120px 0 2rem;
@@ -274,30 +236,11 @@
         .section {
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
-            border-radius: 25px;
+            border-radius: 16px;
             padding: 3rem;
             margin: 3rem 0;
             border: 1px solid var(--glass-border);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.03) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
-            z-index: 0;
-        }
-
-        .section > * {
-            position: relative;
-            z-index: 1;
+            box-shadow: 0 8px 32px var(--shadow-dark);
         }
 
         .section-header {
@@ -306,18 +249,17 @@
         }
 
         .section-title {
-            font-family: 'Orbitron', monospace;
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
             font-weight: 700;
-            color: var(--accent-gold);
+            color: var(--text-light);
             margin-bottom: 1rem;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
         }
 
         .section-subtitle {
-            font-size: 1.3rem;
-            opacity: 0.8;
-            max-width: 800px;
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 700px;
             margin: 0 auto;
             line-height: 1.6;
         }
@@ -325,77 +267,52 @@
         /* Enhanced Cards */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
         }
 
         .card {
-            background: linear-gradient(135deg, var(--glass-bg) 0%, rgba(255, 255, 255, 0.05) 100%);
+            background: var(--glass-bg);
             backdrop-filter: blur(15px);
-            border-radius: 20px;
-            padding: 2.5rem;
-            text-align: center;
-            transition: all 0.4s ease;
+            border-radius: 12px;
+            padding: 2rem;
             border: 1px solid var(--glass-border);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, transparent 0%, rgba(255, 215, 0, 0.1) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .card:hover::before {
-            opacity: 1;
+            transition: all 0.3s ease;
+            text-align: center;
         }
 
         .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 25px 60px rgba(255, 215, 0, 0.2);
-            border-color: rgba(255, 215, 0, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px var(--shadow-dark);
+            border-color: var(--accent-blue);
         }
 
         .card-icon {
-            font-size: 4rem;
-            color: var(--accent-gold);
-            margin-bottom: 1.5rem;
-            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
-            transition: all 0.4s ease;
-        }
-
-        .card:hover .card-icon {
-            transform: scale(1.1) rotateY(180deg);
-            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.6));
+            font-size: 2.5rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
         }
 
         .card h3 {
-            color: var(--accent-gold);
+            color: var(--text-light);
             margin-bottom: 1rem;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             font-weight: 600;
         }
 
         .card p {
-            opacity: 0.9;
-            line-height: 1.6;
-            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            font-size: 0.95rem;
         }
 
-        /* Statistics Section */
+        /* Statistics Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
+            gap: 1.5rem;
+            margin: 2rem 0;
         }
 
         .stat-item {
@@ -403,29 +320,35 @@
             padding: 2rem;
             background: var(--glass-bg);
             backdrop-filter: blur(15px);
-            border-radius: 15px;
+            border-radius: 12px;
             border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px var(--shadow-dark);
         }
 
         .stat-number {
-            font-family: 'Orbitron', monospace;
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--accent-gold);
-            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            font-family: 'Roboto', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            display: block;
+            margin-bottom: 0.5rem;
         }
 
         .stat-label {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            margin-top: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
         }
 
-        /* Enhanced Footer */
+        /* Professional Footer */
         .footer {
-            background: linear-gradient(135deg, rgba(0,0,0,0.5) 0%, rgba(10, 26, 58, 0.8) 100%);
-            backdrop-filter: blur(20px);
-            border-top: 2px solid var(--accent-gold);
+            background: var(--primary-dark);
+            border-top: 1px solid var(--glass-border);
             padding: 3rem 2rem 2rem;
             text-align: center;
             margin-top: 4rem;
@@ -437,11 +360,17 @@
         }
 
         .footer-logo {
-            font-family: 'Orbitron', monospace;
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--accent-gold);
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
             margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
 
         /* Animations */
@@ -453,7 +382,7 @@
         @keyframes fadeInUp {
             from { 
                 opacity: 0; 
-                transform: translateY(50px); 
+                transform: translateY(30px); 
             }
             to { 
                 opacity: 1; 
@@ -464,7 +393,7 @@
         @keyframes slideInDown {
             from {
                 opacity: 0;
-                transform: translateY(-50px);
+                transform: translateY(-30px);
             }
             to {
                 opacity: 1;
@@ -472,19 +401,10 @@
             }
         }
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
         /* Mobile Responsive */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
-            }
-            
-            .hero-content h1 {
-                font-size: 2.5rem;
             }
             
             .cards-grid {
@@ -504,6 +424,10 @@
             .container {
                 padding: 0 1rem;
             }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
@@ -512,15 +436,15 @@
         <div class="nav-container">
             <div class="logo">
                 <i class="fas fa-shield-alt"></i>
-                LSPD
+                LSPD Sistema
             </div>
             <ul class="nav-links">
-                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-                <li><a href="#dipartimenti" onclick="showSection('dipartimenti')"><i class="fas fa-sitemap"></i> Dipartimenti</a></li>
-                <li><a href="#regole" onclick="showSection('regole')"><i class="fas fa-gavel"></i> Regolamento</a></li>
-                <li><a href="#staff" onclick="showSection('staff')"><i class="fas fa-users-cog"></i> Staff</a></li>
-                <li><a href="#contatti" onclick="showSection('contatti')"><i class="fas fa-phone"></i> Contatti</a></li>
-                <li><a href="login.html" class="login-link"><i class="fas fa-sign-in-alt"></i> Login Agenti</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#dipartimenti" onclick="showSection('dipartimenti')">Dipartimenti</a></li>
+                <li><a href="#regole" onclick="showSection('regole')">Regolamento</a></li>
+                <li><a href="#staff" onclick="showSection('staff')">Staff</a></li>
+                <li><a href="#contatti" onclick="showSection('contatti')">Contatti</a></li>
+                <li><a href="login.html" class="login-btn">Accesso</a></li>
             </ul>
         </div>
     </nav>
@@ -530,125 +454,201 @@
         <div class="hero">
             <div class="hero-content">
                 <div class="hero-badge">
-                    <i class="fas fa-star"></i> SERVER PREMIUM FiveM
+                    <i class="fas fa-shield-check"></i> Sistema di Gestione Professionale
                 </div>
-                <h1>LSPD SERVER</h1>
-                <p class="hero-subtitle">Los Santos Police Department</p>
+                <h1>Los Santos Police Department</h1>
+                <p class="hero-subtitle">Sistema di Gestione Integrato</p>
                 <p class="hero-description">
-                    Vivi l'esperienza più realistica come agente di polizia nella città di Los Santos. 
-                    Unisciti a centinaia di giocatori in avventure mozzafiato di roleplay professionale.
+                    Piattaforma digitale avanzata per la gestione delle operazioni, del personale e delle risorse del dipartimento di polizia. Strumenti professionali per l'efficienza operativa.
                 </p>
                 <div class="cta-buttons">
-                    <a href="fivem://connect/192.168.1.1:30120" class="cta-button">
-                        <i class="fas fa-play"></i> ENTRA NEL SERVER
+                    <a href="login.html" class="cta-button">
+                        <i class="fas fa-sign-in-alt"></i> Accedi al Sistema
                     </a>
-                    <a href="login.html" class="cta-button cta-secondary">
-                        <i class="fas fa-shield-alt"></i> LOGIN AGENTI
+                    <a href="#dipartimenti" onclick="showSection('dipartimenti')" class="cta-button cta-secondary">
+                        <i class="fas fa-info-circle"></i> Scopri di Più
                     </a>
                 </div>
             </div>
         </div>
 
         <div class="container">
-            <!-- Statistics Section -->
+            <!-- About Section -->
             <div class="section">
                 <div class="section-header">
-                    <h2 class="section-title"><i class="fas fa-chart-line"></i> Statistiche Server</h2>
-                    <p class="section-subtitle">Numeri che parlano della nostra community</p>
-                </div>
-                
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <div class="stat-number">847</div>
-                        <div class="stat-label">Membri Attivi</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">156</div>
-                        <div class="stat-label">Agenti Online</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">2.8</div>
-                        <div class="stat-label">Anni di Esperienza</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">99</div>
-                        <div class="stat-label">% Uptime Server</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Features Section -->
-            <div class="section">
-                <div class="section-header">
-                    <h2 class="section-title"><i class="fas fa-star"></i> Perché Scegliere LSPD</h2>
-                    <p class="section-subtitle">Un'esperienza di roleplay senza precedenti</p>
+                    <h2 class="section-title">Sistema di Gestione Integrato</h2>
+                    <p class="section-subtitle">
+                        Una piattaforma completa per la gestione efficiente delle operazioni di polizia, del personale e delle risorse dipartimentali.
+                    </p>
                 </div>
 
                 <div class="cards-grid">
                     <div class="card">
-                        <i class="card-icon fas fa-users"></i>
-                        <h3>Community Professionale</h3>
-                        <p>Staff esperto e community matura per un roleplay di alta qualità con regole chiare e rispettate</p>
+                        <i class="card-icon fas fa-users-cog"></i>
+                        <h3>Gestione Personale</h3>
+                        <p>Sistema completo per la gestione del personale, turni, formazione e valutazioni delle prestazioni</p>
                     </div>
                     <div class="card">
-                        <i class="card-icon fas fa-microphone"></i>
-                        <h3>Voice Chat 3D</h3>
-                        <p>Sistema voice chat spaziale avanzato per comunicazioni realistiche durante le operazioni</p>
+                        <i class="card-icon fas fa-file-alt"></i>
+                        <h3>Gestione Report</h3>
+                        <p>Digitalizzazione e archiviazione sicura di tutti i report operativi e documentazione ufficiale</p>
                     </div>
                     <div class="card">
-                        <i class="card-icon fas fa-car-side"></i>
-                        <h3>Veicoli Personalizzati</h3>
-                        <p>Flotta completa di veicoli LSPD con livree autentiche, sirene reali e equipaggiamenti specializzati</p>
-                    </div>
-                    <div class="card">
-                        <i class="card-icon fas fa-map-marked-alt"></i>
-                        <h3>Mappa Espansa</h3>
-                        <p>Los Santos completamente mappata con stazioni di polizia, tribunali e strutture governative</p>
+                        <i class="card-icon fas fa-chart-line"></i>
+                        <h3>Analytics e Statistiche</h3>
+                        <p>Dashboard avanzate con metriche operative, analisi delle prestazioni e reportistica integrata</p>
                     </div>
                     <div class="card">
                         <i class="card-icon fas fa-shield-alt"></i>
-                        <h3>Sistema Anti-Cheat</h3>
-                        <p>Protezione avanzata contro cheater per garantire un gameplay pulito e competitivo</p>
+                        <h3>Sicurezza Avanzata</h3>
+                        <p>Protocolli di sicurezza enterprise con crittografia end-to-end e controllo accessi granulare</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-mobile-alt"></i>
+                        <h3>Accesso Mobile</h3>
+                        <p>Piattaforma responsive ottimizzata per dispositivi mobili e tablet per operazioni sul campo</p>
                     </div>
                     <div class="card">
                         <i class="card-icon fas fa-clock"></i>
-                        <h3>Eventi Settimanali</h3>
-                        <p>Training, operazioni speciali e eventi community organizzati dal nostro staff</p>
+                        <h3>Operativo 24/7</h3>
+                        <p>Sistema sempre disponibile con supporto tecnico continuo e backup automatici</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Sezioni aggiuntive con JavaScript -->
+    <!-- Sezioni aggiuntive -->
     <div id="dipartimenti" class="page">
         <div class="container">
             <div class="section">
                 <div class="section-header">
-                    <h2 class="section-title"><i class="fas fa-sitemap"></i> Dipartimenti LSPD</h2>
-                    <p class="section-subtitle">Specializzazioni professionali per ogni tipo di servizio</p>
+                    <h2 class="section-title">Struttura Organizzativa</h2>
+                    <p class="section-subtitle">Dipartimenti specializzati per una gestione efficiente delle operazioni</p>
                 </div>
                 
                 <div class="cards-grid">
                     <div class="card">
                         <i class="card-icon fas fa-road"></i>
-                        <h3>Traffic Division</h3>
-                        <p>Controllo del traffico, pattugliamento stradale e gestione incidenti</p>
+                        <h3>Polizia Stradale</h3>
+                        <p>Controllo del traffico, sicurezza stradale e gestione della viabilità urbana</p>
                     </div>
                     <div class="card">
                         <i class="card-icon fas fa-search"></i>
-                        <h3>Detective Bureau</h3>
-                        <p>Investigazioni criminali, omicidi e casi complessi</p>
+                        <h3>Investigazioni</h3>
+                        <p>Unità investigativa per crimini complessi e operazioni di intelligence</p>
                     </div>
                     <div class="card">
-                        <i class="card-icon fas fa-helicopter"></i>
-                        <h3>Air Support Unit</h3>
-                        <p>Supporto aereo per inseguimenti e operazioni speciali</p>
+                        <i class="card-icon fas fa-users"></i>
+                        <h3>Operazioni Speciali</h3>
+                        <p>Unità d'élite per situazioni ad alto rischio e operazioni tattiche</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-headset"></i>
+                        <h3>Centro Operativo</h3>
+                        <p>Coordinamento delle comunicazioni e dispatching delle unità operative</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="regole" class="page">
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Regolamento di Servizio</h2>
+                    <p class="section-subtitle">Linee guida operative e codice di condotta professionale</p>
+                </div>
+                
+                <div class="cards-grid">
+                    <div class="card">
+                        <i class="card-icon fas fa-gavel"></i>
+                        <h3>Codice di Condotta</h3>
+                        <p>Principi etici e standard professionali per tutto il personale del dipartimento</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-book"></i>
+                        <h3>Procedure Operative</h3>
+                        <p>Protocolli standardizzati per le operazioni quotidiane e situazioni di emergenza</p>
                     </div>
                     <div class="card">
                         <i class="card-icon fas fa-user-shield"></i>
-                        <h3>SWAT Team</h3>
-                        <p>Unità speciale per situazioni ad alto rischio</p>
+                        <h3>Sicurezza del Personale</h3>
+                        <p>Norme per la protezione e sicurezza degli agenti durante il servizio</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-balance-scale"></i>
+                        <h3>Disciplina e Responsabilità</h3>
+                        <p>Sistema disciplinare e procedure per garantire la responsabilità professionale</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="staff" class="page">
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Comando Dipartimentale</h2>
+                    <p class="section-subtitle">Leadership e struttura gerarchica del dipartimento</p>
+                </div>
+                
+                <div class="cards-grid">
+                    <div class="card">
+                        <i class="card-icon fas fa-star"></i>
+                        <h3>Comando Generale</h3>
+                        <p>Direzione strategica e supervisione generale delle operazioni dipartimentali</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-users-cog"></i>
+                        <h3>Gestione Operativa</h3>
+                        <p>Coordinamento delle operazioni quotidiane e gestione delle risorse</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-clipboard-list"></i>
+                        <h3>Amministrazione</h3>
+                        <p>Gestione amministrativa, risorse umane e supporto logistico</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-graduation-cap"></i>
+                        <h3>Formazione</h3>
+                        <p>Programmi di addestramento continuo e sviluppo professionale</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="contatti" class="page">
+        <div class="container">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">Informazioni di Contatto</h2>
+                    <p class="section-subtitle">Canali di comunicazione e supporto tecnico</p>
+                </div>
+                
+                <div class="cards-grid">
+                    <div class="card">
+                        <i class="card-icon fas fa-headset"></i>
+                        <h3>Supporto Tecnico</h3>
+                        <p>Assistenza tecnica per problemi di accesso e funzionalità del sistema</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-envelope"></i>
+                        <h3>Comunicazioni Ufficiali</h3>
+                        <p>Canale per comunicazioni istituzionali e aggiornamenti di servizio</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-phone"></i>
+                        <h3>Emergenze Tecniche</h3>
+                        <p>Linea dedicata per problemi critici del sistema durante le operazioni</p>
+                    </div>
+                    <div class="card">
+                        <i class="card-icon fas fa-question-circle"></i>
+                        <h3>Documentazione</h3>
+                        <p>Guide utente, FAQ e manuali operativi per l'utilizzo del sistema</p>
                     </div>
                 </div>
             </div>
@@ -658,10 +658,12 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-logo">
-                <i class="fas fa-shield-alt"></i> LSPD SERVER
+                <i class="fas fa-shield-alt"></i> LSPD Sistema di Gestione
             </div>
-            <p>&copy; 2025 LSPD FiveM Server. Tutti i diritti riservati.</p>
-            <p style="opacity: 0.7; margin-top: 0.5rem;">Los Santos Police Department - Protect and Serve</p>
+            <div class="footer-text">
+                <p>&copy; 2025 Los Santos Police Department. Tutti i diritti riservati.</p>
+                <p>Sistema di gestione professionale per le forze dell'ordine.</p>
+            </div>
         </div>
     </footer>
 
@@ -678,22 +680,32 @@
 
         // Show sections
         function showSection(sectionId) {
-            // Hide all pages
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => page.classList.remove('active'));
             
-            // Show selected page
             const targetPage = document.getElementById(sectionId);
             if (targetPage) {
                 targetPage.classList.add('active');
             }
             
-            // Scroll to top
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
         }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>
