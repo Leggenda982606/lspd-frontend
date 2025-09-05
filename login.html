@@ -3,17 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LSPD - Login Sistema Agenti</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>LSPD - Accesso al Sistema</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-blue: #0a1a3a;
-            --secondary-blue: #1a3a6b;
-            --accent-gold: #ffd700;
-            --accent-orange: #ff6b35;
-            --glass-bg: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.2);
+            --primary-dark: #1a202c;
+            --secondary-dark: #2d3748;
+            --accent-blue: #3182ce;
+            --accent-gold: #d69e2e;
+            --text-light: #e2e8f0;
+            --text-muted: #a0aec0;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+            --success-green: #38a169;
+            --error-red: #e53e3e;
         }
 
         * {
@@ -24,7 +29,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -34,59 +39,107 @@
 
         .login-container {
             display: flex;
-            width: 90%;
+            width: 95%;
             max-width: 1200px;
-            height: 80vh;
+            height: 85vh;
             background: var(--glass-bg);
             backdrop-filter: blur(20px);
-            border-radius: 25px;
+            border-radius: 20px;
             border: 1px solid var(--glass-border);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 40px var(--shadow-dark);
             overflow: hidden;
         }
 
         .login-left {
             flex: 1;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 107, 53, 0.1) 100%);
+            background: 
+                linear-gradient(135deg, rgba(49, 130, 206, 0.1) 0%, rgba(214, 158, 46, 0.1) 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%231a202c;stop-opacity:1" /><stop offset="50%" style="stop-color:%232d3748;stop-opacity:1" /><stop offset="100%" style="stop-color:%234a5568;stop-opacity:1" /></linearGradient></defs><rect width="800" height="600" fill="url(%23bg)"/><rect x="50" y="400" width="40" height="200" fill="%23171923" opacity="0.6"/><rect x="100" y="350" width="50" height="250" fill="%231a202c" opacity="0.7"/><rect x="160" y="380" width="30" height="220" fill="%23171923" opacity="0.6"/><rect x="200" y="320" width="60" height="280" fill="%231a202c" opacity="0.7"/><rect x="270" y="360" width="45" height="240" fill="%23171923" opacity="0.6"/><rect x="325" y="300" width="55" height="300" fill="%231a202c" opacity="0.7"/><rect x="390" y="340" width="40" height="260" fill="%23171923" opacity="0.6"/><rect x="440" y="280" width="65" height="320" fill="%231a202c" opacity="0.7"/><rect x="515" y="320" width="50" height="280" fill="%23171923" opacity="0.6"/><rect x="575" y="260" width="45" height="340" fill="%231a202c" opacity="0.7"/><rect x="630" y="300" width="35" height="300" fill="%23171923" opacity="0.6"/><rect x="675" y="240" width="60" height="360" fill="%231a202c" opacity="0.7"/><circle cx="120" cy="330" r="2" fill="%233182ce" opacity="0.8"/><circle cx="240" cy="300" r="2" fill="%233182ce" opacity="0.8"/><circle cx="360" cy="280" r="2" fill="%233182ce" opacity="0.8"/><circle cx="480" cy="260" r="2" fill="%233182ce" opacity="0.8"/><circle cx="600" cy="240" r="2" fill="%233182ce" opacity="0.8"/><circle cx="720" cy="220" r="2" fill="%233182ce" opacity="0.8"/></svg>') center/cover;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 3rem;
             text-align: center;
-            color: white;
+            color: var(--text-light);
+            position: relative;
+        }
+
+        .login-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(26, 32, 44, 0.3) 70%);
+        }
+
+        .login-left > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-container {
+            margin-bottom: 2rem;
         }
 
         .badge-icon {
-            font-size: 6rem;
-            color: var(--accent-gold);
-            margin-bottom: 2rem;
-            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.5));
-            animation: pulse 2s infinite;
+            font-size: 4rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 20px rgba(49, 130, 206, 0.3));
+            animation: pulse 3s infinite;
         }
 
         .login-left h1 {
-            font-family: 'Orbitron', monospace;
-            font-size: 3rem;
+            font-family: 'Roboto', sans-serif;
+            font-size: 2.5rem;
             font-weight: 900;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--accent-gold) 0%, #fff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-light);
         }
 
-        .login-left p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            line-height: 1.6;
+        .login-left .subtitle {
+            font-size: 1.1rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-left .description {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            max-width: 300px;
+        }
+
+        .security-features {
+            margin-top: 2rem;
+            text-align: left;
+        }
+
+        .security-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .security-item i {
+            color: var(--success-green);
+            margin-right: 0.75rem;
+            width: 16px;
         }
 
         .login-right {
             flex: 1;
-            padding: 4rem;
+            padding: 3rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .login-form {
@@ -97,74 +150,129 @@
 
         .form-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
         }
 
         .form-header h2 {
-            color: var(--accent-gold);
-            font-size: 2rem;
+            color: var(--text-light);
+            font-size: 1.8rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
         }
 
         .form-header p {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .demo-credentials {
+            background: linear-gradient(135deg, rgba(49, 130, 206, 0.1) 0%, rgba(49, 130, 206, 0.05) 100%);
+            border: 1px solid rgba(49, 130, 206, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .demo-credentials:hover {
+            background: linear-gradient(135deg, rgba(49, 130, 206, 0.15) 0%, rgba(49, 130, 206, 0.08) 100%);
+            border-color: rgba(49, 130, 206, 0.3);
+        }
+
+        .demo-credentials h4 {
+            color: var(--accent-blue);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .demo-credentials p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin: 0.2rem 0;
         }
 
         .form-group {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             position: relative;
         }
 
         .form-group label {
             display: block;
-            color: var(--accent-gold);
+            color: var(--text-light);
             margin-bottom: 0.5rem;
-            font-weight: 600;
+            font-weight: 500;
+            font-size: 0.9rem;
         }
 
         .form-group input {
             width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
+            padding: 1rem 1rem 1rem 2.75rem;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            color: white;
+            border-radius: 8px;
+            color: var(--text-light);
             font-size: 1rem;
             transition: all 0.3s ease;
         }
 
+        .form-group input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
         .form-group input:focus {
             outline: none;
-            border-color: var(--accent-gold);
-            background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            border-color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
         }
 
         .form-group i {
             position: absolute;
-            top: 3rem;
+            top: 2.25rem;
             left: 1rem;
-            color: var(--accent-gold);
+            color: var(--text-muted);
             opacity: 0.7;
         }
 
         .login-button {
             width: 100%;
-            padding: 1.2rem;
-            background: linear-gradient(135deg, var(--accent-orange), #ff8c42);
+            padding: 1rem;
+            background: var(--accent-blue);
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             color: white;
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 1rem;
+            font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .login-button:hover::before {
+            left: 100%;
         }
 
         .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
+            background: #2c5aa0;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
         }
 
         .login-button:active {
@@ -177,47 +285,67 @@
             transform: none;
         }
 
-        .error-message {
-            background: rgba(244, 67, 54, 0.1);
-            border: 1px solid rgba(244, 67, 54, 0.3);
-            color: #ff6b6b;
-            padding: 1rem;
-            border-radius: 8px;
+        .message {
+            padding: 0.75rem;
+            border-radius: 6px;
             margin-bottom: 1rem;
             text-align: center;
+            font-size: 0.9rem;
             display: none;
         }
 
+        .error-message {
+            background: rgba(229, 62, 62, 0.1);
+            border: 1px solid rgba(229, 62, 62, 0.3);
+            color: #fc8181;
+        }
+
         .success-message {
-            background: rgba(76, 175, 80, 0.1);
-            border: 1px solid rgba(76, 175, 80, 0.3);
-            color: #4caf50;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            text-align: center;
-            display: none;
+            background: rgba(56, 161, 105, 0.1);
+            border: 1px solid rgba(56, 161, 105, 0.3);
+            color: #68d391;
         }
 
         .loading {
             display: none;
             text-align: center;
             padding: 1rem;
+            color: var(--text-muted);
         }
 
         .spinner {
-            border: 3px solid rgba(255, 215, 0, 0.3);
-            border-top: 3px solid var(--accent-gold);
+            border: 3px solid rgba(49, 130, 206, 0.3);
+            border-top: 3px solid var(--accent-blue);
             border-radius: 50%;
             width: 30px;
             height: 30px;
             animation: spin 1s linear infinite;
-            margin: 0 auto;
+            margin: 0 auto 0.5rem;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .back-link a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-link a:hover {
+            color: var(--accent-blue);
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
         }
 
         @keyframes spin {
@@ -225,52 +353,17 @@
             100% { transform: rotate(360deg); }
         }
 
-        .back-link {
-            text-align: center;
-            margin-top: 2rem;
-        }
-
-        .back-link a {
-            color: var(--accent-gold);
-            text-decoration: none;
-            font-weight: 500;
-            transition: opacity 0.3s ease;
-        }
-
-        .back-link a:hover {
-            opacity: 0.8;
-        }
-
-        .demo-credentials {
-            background: rgba(255, 215, 0, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .demo-credentials h4 {
-            color: var(--accent-gold);
-            margin-bottom: 0.5rem;
-        }
-
-        .demo-credentials p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.9rem;
-            margin: 0.2rem 0;
-        }
-
         @media (max-width: 768px) {
             .login-container {
                 flex-direction: column;
                 width: 95%;
-                height: 90vh;
+                height: 95vh;
             }
             
-            .login-left, .login-right {
+            .login-left {
                 flex: none;
-                padding: 2rem;
+                min-height: 200px;
+                padding: 1.5rem;
             }
             
             .login-left h1 {
@@ -278,7 +371,15 @@
             }
             
             .badge-icon {
-                font-size: 4rem;
+                font-size: 3rem;
+            }
+            
+            .login-right {
+                padding: 2rem;
+            }
+            
+            .security-features {
+                display: none;
             }
         }
     </style>
@@ -286,37 +387,60 @@
 <body>
     <div class="login-container">
         <div class="login-left">
-            <i class="fas fa-shield-alt badge-icon"></i>
-            <h1>LSPD</h1>
-            <p>Sistema di Accesso Sicuro<br>Los Santos Police Department</p>
+            <div class="logo-container">
+                <i class="fas fa-shield-alt badge-icon"></i>
+                <h1>LSPD</h1>
+                <p class="subtitle">Sistema di Gestione</p>
+                <p class="description">Accesso sicuro al sistema di gestione integrato del Los Santos Police Department</p>
+            </div>
+            
+            <div class="security-features">
+                <div class="security-item">
+                    <i class="fas fa-lock"></i>
+                    <span>Autenticazione sicura</span>
+                </div>
+                <div class="security-item">
+                    <i class="fas fa-shield-check"></i>
+                    <span>Crittografia end-to-end</span>
+                </div>
+                <div class="security-item">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Controllo accessi</span>
+                </div>
+                <div class="security-item">
+                    <i class="fas fa-history"></i>
+                    <span>Log delle attività</span>
+                </div>
+            </div>
         </div>
         
         <div class="login-right">
             <form class="login-form" id="loginForm">
                 <div class="form-header">
-                    <h2>Accesso Agenti</h2>
-                    <p>Inserisci le tue credenziali per accedere al sistema</p>
+                    <h2>Accesso Sistema</h2>
+                    <p>Inserire le credenziali per accedere al sistema</p>
                 </div>
 
-                <div class="demo-credentials">
+                <div class="demo-credentials" onclick="fillDemoCredentials()">
                     <h4>Credenziali Demo</h4>
                     <p><strong>Badge:</strong> LS-5067</p>
                     <p><strong>Password:</strong> admin123</p>
+                    <p style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.8;">Clicca per compilare automaticamente</p>
                 </div>
                 
-                <div class="error-message" id="errorMessage"></div>
-                <div class="success-message" id="successMessage"></div>
+                <div class="error-message message" id="errorMessage"></div>
+                <div class="success-message message" id="successMessage"></div>
                 
                 <div class="form-group">
                     <label for="badgeNumber">Numero Badge</label>
-                    <i class="fas fa-badge"></i>
+                    <i class="fas fa-id-badge"></i>
                     <input type="text" id="badgeNumber" name="badgeNumber" placeholder="ES: LS-1234" required>
                 </div>
                 
                 <div class="form-group">
                     <label for="password">Password</label>
                     <i class="fas fa-lock"></i>
-                    <input type="password" id="password" name="password" placeholder="••••••••" required>
+                    <input type="password" id="password" name="password" placeholder="Inserire password" required>
                 </div>
                 
                 <button type="submit" class="login-button" id="loginButton">
@@ -327,13 +451,14 @@
                 
                 <div class="loading" id="loading">
                     <div class="spinner"></div>
-                    <p>Accesso in corso...</p>
+                    <p>Verifica credenziali in corso...</p>
                 </div>
             </form>
             
             <div class="back-link">
                 <a href="index.html">
-                    <i class="fas fa-arrow-left"></i> Torna al Sito Principale
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Torna alla Homepage</span>
                 </a>
             </div>
         </div>
@@ -377,36 +502,43 @@
                 }
             }
 
-            logout() {
-                this.token = null;
-                this.user = null;
-                localStorage.removeItem('lspd_token');
-                localStorage.removeItem('lspd_user');
-                window.location.href = 'login.html';
-            }
-
             isAuthenticated() {
                 return !!this.token && !!this.user;
             }
         }
 
-        // Istanza globale
         const auth = new AuthManager();
 
         // Check if already logged in
         if (auth.isAuthenticated()) {
-            document.getElementById('successMessage').textContent = 'Sei già loggato! Reindirizzamento...';
+            document.getElementById('successMessage').textContent = 'Accesso già effettuato. Reindirizzamento...';
             document.getElementById('successMessage').style.display = 'block';
             setTimeout(() => {
                 window.location.href = 'dashboard.html';
             }, 2000);
         }
 
+        // Fill demo credentials
+        function fillDemoCredentials() {
+            document.getElementById('badgeNumber').value = 'LS-5067';
+            document.getElementById('password').value = 'admin123';
+            
+            // Add visual feedback
+            const demoBox = document.querySelector('.demo-credentials');
+            demoBox.style.background = 'linear-gradient(135deg, rgba(56, 161, 105, 0.1) 0%, rgba(56, 161, 105, 0.05) 100%)';
+            demoBox.style.borderColor = 'rgba(56, 161, 105, 0.3)';
+            
+            setTimeout(() => {
+                demoBox.style.background = 'linear-gradient(135deg, rgba(49, 130, 206, 0.1) 0%, rgba(49, 130, 206, 0.05) 100%)';
+                demoBox.style.borderColor = 'rgba(49, 130, 206, 0.2)';
+            }, 1000);
+        }
+
         // Form submission
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const badgeNumber = document.getElementById('badgeNumber').value;
+            const badgeNumber = document.getElementById('badgeNumber').value.trim();
             const password = document.getElementById('password').value;
             const errorDiv = document.getElementById('errorMessage');
             const successDiv = document.getElementById('successMessage');
@@ -414,9 +546,16 @@
             const buttonText = document.getElementById('buttonText');
             const loading = document.getElementById('loading');
             
-            // Hide messages
+            // Reset messages
             errorDiv.style.display = 'none';
             successDiv.style.display = 'none';
+            
+            // Validation
+            if (!badgeNumber || !password) {
+                errorDiv.textContent = 'Inserire numero badge e password';
+                errorDiv.style.display = 'block';
+                return;
+            }
             
             // Show loading state
             buttonText.style.display = 'none';
@@ -427,24 +566,20 @@
                 const result = await auth.login(badgeNumber, password);
                 
                 if (result.success) {
-                    // Show success
-                    successDiv.textContent = `Benvenuto ${result.user.firstName}! Reindirizzamento al dashboard...`;
+                    successDiv.textContent = `Accesso effettuato. Benvenuto ${result.user.firstName}!`;
                     successDiv.style.display = 'block';
                     
-                    // Redirect to dashboard after 2 seconds
                     setTimeout(() => {
                         window.location.href = 'dashboard.html';
-                    }, 2000);
+                    }, 1500);
                 } else {
-                    // Show error
-                    errorDiv.textContent = result.message;
+                    errorDiv.textContent = result.message || 'Credenziali non valide';
                     errorDiv.style.display = 'block';
                 }
             } catch (error) {
                 errorDiv.textContent = 'Errore di connessione al server';
                 errorDiv.style.display = 'block';
             } finally {
-                // Reset loading state
                 buttonText.style.display = 'inline';
                 loading.style.display = 'none';
                 loginButton.disabled = false;
@@ -454,11 +589,8 @@
         // Auto-format badge number
         document.getElementById('badgeNumber').addEventListener('input', (e) => {
             let value = e.target.value.toUpperCase();
-            
-            // Remove non-alphanumeric characters except dash
             value = value.replace(/[^A-Z0-9-]/g, '');
             
-            // Format as LS-#### if not already formatted
             if (value.length > 2 && !value.includes('-')) {
                 value = value.substring(0, 2) + '-' + value.substring(2);
             }
@@ -466,10 +598,14 @@
             e.target.value = value;
         });
 
-        // Auto-fill demo credentials when clicking on them
-        document.querySelector('.demo-credentials').addEventListener('click', () => {
-            document.getElementById('badgeNumber').value = 'LS-5067';
-            document.getElementById('password').value = 'admin123';
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const form = document.getElementById('loginForm');
+                if (document.activeElement.tagName !== 'BUTTON') {
+                    form.dispatchEvent(new Event('submit'));
+                }
+            }
         });
     </script>
 </body>
