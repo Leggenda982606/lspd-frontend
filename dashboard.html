@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSPD Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #0a1a3a;
+            --secondary-blue: #1a3a6b;
+            --accent-gold: #ffd700;
+            --accent-orange: #ff6b35;
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--glass-border);
+            padding: 2rem 0;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding: 0 2rem 2rem;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-header i {
+            font-size: 3rem;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+
+        .sidebar-header span {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+        }
+
+        .user-info {
+            padding: 0 2rem 2rem;
+            border-bottom: 1px solid var(--glass-border);
+            margin-bottom: 2rem;
+        }
+
+        .user-avatar {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--accent-gold), var(--accent-orange));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+        }
+
+        .user-details {
+            text-align: center;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-badge {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .user-rank {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--glass-bg);
+            color: var(--accent-gold);
+        }
+
+        .nav-link.active {
+            background: rgba(255, 215, 0, 0.1);
+            color: var(--accent-gold);
+            border-left: 3px solid var(--accent-gold);
+        }
+
+        .nav-link i {
+            margin-right: 1rem;
+            width: 20px;
+        }
+
+        .logout-btn {
+            margin: 2rem 1rem 0;
+            padding: 1rem;
+            background: linear-gradient(45deg, #dc3545, #c82333);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            width: calc(100% - 2rem);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        .logout-btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-bar {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            color: var(--accent-gold);
+            font-weight: 500;
+        }
+
+        .breadcrumb i {
+            margin-right: 0.5rem;
+        }
+
+        .content-area {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .dashboard-welcome {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .dashboard-welcome h1 {
+            font-family: 'Orbitron', monospace;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+
+        .dashboard-welcome p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .stat-card i {
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            display: block;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .info-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .info-card h3 {
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: rgba(76, 175, 80, 0.2);
+            color: #4caf50;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 215, 0, 0.3);
+            border-top: 3px solid var(--accent-gold);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-shield-alt"></i>
+                <span>LSPD System</span>
+            </div>
+            
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <span class="user-name" id="userName">Caricamento...</span>
+                    <span class="user-badge" id="userBadge">Caricamento...</span>
+                    <span class="user-rank" id="userRank">Caricamento...</span>
+                </div>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#dashboard" class="nav-link active">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#profile" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Profilo</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#reports" class="nav-link">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Report</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#admin" class="nav-link">
+                        <i class="fas fa-users-cog"></i>
+                        <span>Amministrazione</span>
+                    </a>
+                </li>
+            </ul>
+            
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="breadcrumb">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="top-bar-actions">
+                    <span id="welcomeMessage">Benvenuto nel sistema LSPD</span>
+                </div>
+            </header>
+            
+            <div class="content-area">
+                <div class="dashboard-welcome">
+                    <h1>Dashboard LSPD</h1>
+                    <p>Benvenuto nel sistema di gestione del Los Santos Police Department. Da qui puoi accedere a tutte le funzionalità del sistema.</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <span class="stat-number" id="totalOfficers">--</span>
+                        <span class="stat-label">Agenti Totali</span>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <i class="fas fa-user-check"></i>
+                        <span class="stat-number" id="onDutyOfficers">--</span>
+                        <span class="stat-label">In Servizio</span>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <i class="fas fa-file-alt"></i>
+                        <span class="stat-number" id="reportsToday">--</span>
+                        <span class="stat-label">Report Oggi</span>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <i class="fas fa-clock"></i>
+                        <span class="stat-number" id="pendingReports">--</span>
+                        <span class="stat-label">In Attesa</span>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <h3>Informazioni Account</h3>
+                    <ul class="info-list" id="accountInfo">
+                        <li class="loading">
+                            <div class="spinner"></div>
+                            <p>Caricamento dati...</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Auth Manager
+        class AuthManager {
+            constructor() {
+                this.apiUrl = 'https://lspd-backend.onrender.com/api';
+                this.token = localStorage.getItem('lspd_token');
+                this.user = JSON.parse(localStorage.getItem('lspd_user') || 'null');
+            }
+
+            async apiCall(endpoint, options = {}) {
+                const url = `${this.apiUrl}${endpoint}`;
+                const config = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.token}`,
+                        ...options.headers
+                    },
+                    ...options
+                };
+
+                try {
+                    const response = await fetch(url, config);
+                    
+                    if (response.status === 401) {
+                        this.logout();
+                        return null;
+                    }
+                    
+                    return await response.json();
+                } catch (error) {
+                    console.error('API Error:', error);
+                    return null;
+                }
+            }
+
+            logout() {
+                localStorage.removeItem('lspd_token');
+                localStorage.removeItem('lspd_user');
+                window.location.href = 'login.html';
+            }
+
+            isAuthenticated() {
+                return !!this.token && !!this.user;
+            }
+        }
+
+        const auth = new AuthManager();
+
+        // Check authentication
+        if (!auth.isAuthenticated()) {
+            window.location.href = 'login.html';
+        }
+
+        // Load user data
+        function loadUserData() {
+            if (auth.user) {
+                document.getElementById('userName').textContent = `${auth.user.firstName} ${auth.user.lastName}`;
+                document.getElementById('userBadge').textContent = auth.user.badgeNumber;
+                document.getElementById('userRank').textContent = auth.user.rank;
+                document.getElementById('welcomeMessage').textContent = `Benvenuto, ${auth.user.firstName}`;
+                
+                // Load account info
+                const accountInfo = document.getElementById('accountInfo');
+                accountInfo.innerHTML = `
+                    <li>
+                        <span>Nome Completo:</span>
+                        <span>${auth.user.firstName} ${auth.user.lastName}</span>
+                    </li>
+                    <li>
+                        <span>Badge Number:</span>
+                        <span>${auth.user.badgeNumber}</span>
+                    </li>
+                    <li>
+                        <span>Grado:</span>
+                        <span>${auth.user.rank}</span>
+                    </li>
+                    <li>
+                        <span>Dipartimento:</span>
+                        <span>${auth.user.department}</span>
+                    </li>
+                    <li>
+                        <span>Status:</span>
+                        <span class="status-badge status-active">Attivo</span>
+                    </li>
+                    <li>
+                        <span>Permessi:</span>
+                        <span>${auth.user.permissions ? auth.user.permissions.join(', ') : 'N/A'}</span>
+                    </li>
+                    <li>
+                        <span>Admin:</span>
+                        <span>${auth.user.isAdmin ? 'Sì' : 'No'}</span>
+                    </li>
+                `;
+            }
+        }
+
+        // Load dashboard stats
+        async function loadStats() {
+            const stats = await auth.apiCall('/dashboard/stats');
+            if (stats) {
+                document.getElementById('totalOfficers').textContent = stats.totalOfficers || '0';
+                document.getElementById('onDutyOfficers').textContent = stats.onDutyOfficers || '0';
+                document.getElementById('reportsToday').textContent = stats.reportsToday || '0';
+                document.getElementById('pendingReports').textContent = stats.pendingReports || '0';
+            }
+        }
+
+        // Logout function
+        function logout() {
+            if (confirm('Sei sicuro di voler uscire dal sistema?')) {
+                auth.logout();
+            }
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            loadUserData();
+            loadStats();
+        });
+    </script>
+</body>
+</html>
