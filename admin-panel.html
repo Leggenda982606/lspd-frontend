@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LSPD - Pannello Super Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --accent-color: #fbbf24;
+            --dark-bg: #0f172a;
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --border-color: #334155;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --admin-gradient: linear-gradient(135deg, #7c3aed, #a855f7);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+        
+        /* Admin Layout */
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Admin Sidebar */
+        .admin-sidebar {
+            width: 280px;
+            background: var(--admin-gradient);
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(124, 58, 237, 0.2);
+        }
+        
+        .admin-logo {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 2rem;
+        }
+        
+        .admin-logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .admin-logo .badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--accent-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+        
+        .admin-nav {
+            list-style: none;
+            padding: 0 1rem;
+        }
+        
+        .admin-nav-item {
+            margin-bottom: 0.5rem;
+        }
+        
+        .admin-nav-link {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .admin-nav-link:hover, .admin-nav-link.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            backdrop-filter: blur(10px);
+            transform: translateX(5px);
+        }
+        
+        .admin-nav-link i {
+            margin-right: 1rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .admin-main {
+            flex: 1;
+            margin-left: 280px;
+            background: var(--dark-bg);
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .admin-header {
+            background: var(--card-bg);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(10px);
+        }
+        
+        .admin-header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .admin-badge {
+            background: var(--admin-gradient);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .admin-user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .admin-user-info {
+            text-align: right;
+        }
+        
+        .admin-user-info .name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .admin-user-info .role {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .admin-logout-btn {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-logout-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+        
+        /* Content Sections */
+        .admin-section {
+            display: none;
+            padding: 2rem;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .admin-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Stats Cards */
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .admin-stat-card {
+            background: linear-gradient(135deg, var(--card-bg), #334155);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(124, 58, 237, 0.1);
+        }
+        
+        .admin-stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--admin-gradient);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .stat-icon {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            color: #a855f7;
+            opacity: 0.7;
+        }
+        
+        /* Admin Cards */
+        .admin-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        
+        .admin-card-header {
+            padding: 1.5rem 2rem;
+            background: var(--admin-gradient);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-card-header h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .admin-card-body {
+            padding: 2rem;
+        }
+        
+        /* Buttons */
+        .admin-btn {
+            background: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .admin-btn:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+        
+        .admin-btn-success {
+            background: var(--success-color);
+        }
+        
+        .admin-btn-success:hover {
+            background: #059669;
+        }
+        
+        .admin-btn-warning {
+            background: var(--warning-color);
+        }
+        
+        .admin-btn-warning:hover {
+            background: #d97706;
+        }
+        
+        .admin-btn-danger {
+            background: var(--danger-color);
+        }
+        
+        .admin-btn-danger:hover {
+            background: #dc2626;
+        }
+        
+        .admin-btn-purple {
+            background: var(--admin-gradient);
+        }
+        
+        .admin-btn-purple:hover {
+            opacity: 0.9;
+        }
+        
+        /* Forms */
+        .admin-form {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: #a855f7;
+            box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+        }
+        
+        /* Tables */
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        
+        .admin-table th {
+            background: var(--admin-gradient);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .admin-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        
+        .admin-table tr:hover {
+            background: rgba(168, 85, 247, 0.05);
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-active {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
+        }
+        
+        .status-inactive {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger-color);
+        }
+        
+        .status-suspended {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning-color);
+        }
+        
+        /* User Creation Form */
+        .user-creation-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .batch-creation {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(124, 58, 237, 0.05));
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .batch-creation h4 {
+            color: #a855f7;
+            margin-bottom: 1rem;
+        }
+        
+        /* Modal */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .admin-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .admin-modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: scale(0.9) translateY(-20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .modal-header h3 {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        .close-modal:hover {
+            color: var(--text-primary);
+        }
+        
+        /* Alert Messages */
+        .admin-alert {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .admin-alert-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .admin-alert-error {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger-color);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        .admin-alert-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                width: 250px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .admin-sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            
+            .admin-main {
+                margin-left: 0;
+            }
+            
+            .admin-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .user-creation-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(168, 85, 247, 0.3);
+            border-radius: 50%;
+            border-top-color: #a855f7;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Admin Sidebar -->
+        <nav class="admin-sidebar">
+            <div class="admin-logo">
+                <h1><i class="fas fa-crown"></i> LSPD</h1>
+                <div class="badge">SUPER ADMIN</div>
+            </div>
+            
+            <ul class="admin-nav">
+                <li class="admin-nav-item">
+                    <a href="#" class="admin-nav-link active" data-section="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="#" class="admin-nav-link" data-section="users">
+                        <i class="fas fa-users-cog"></i>
+                        Gestione Utenti
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="#" class="admin-nav-link" data-section="system">
+                        <i class="fas fa-server"></i>
+                        Sistema
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="#" class="admin-nav-link" data-section="logs">
+                        <i class="fas fa-clipboard-list"></i>
+                        Audit Logs
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="#" class="admin-nav-link" data-section="backup">
+                        <i class="fas fa-database"></i>
+                        Backup & Export
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="#" class="admin-nav-link" data-section="settings">
+                        <i class="fas fa-cogs"></i>
+                        Configurazioni
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <!-- Main Content -->
+        <main class="admin-main">
+            <!-- Header -->
+            <header class="admin-header">
+                <h1>
+                    <span class="admin-badge">ADMIN</span>
+                    <span id="page-title">Dashboard</span>
+                </h1>
+                <div class="admin-user-menu">
+                    <div class="admin-user-info">
+                        <div class="name" id="admin-name">Super Administrator</div>
+                        <div class="role">Sistema di Gestione LSPD</div>
+                    </div>
+                    <button class="admin-logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Logout
+                    </button>
+                </div>
+            </header>
+            
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="admin-section active">
+                <div class="admin-stats">
+                    <div class="admin-stat-card">
+                        <div class="stat-value" id="total-users">0</div>
+                        <div class="stat-label">Utenti Totali</div>
+                        <i class="fas fa-users stat-icon"></i>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="stat-value" id="active-users">0</div>
+                        <div class="stat-label">Utenti Attivi</div>
+                        <i class="fas fa-user-check stat-icon"></i>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="stat-value" id="total-reports">0</div>
+                        <div class="stat-label">Report Totali</div>
+                        <i class="fas fa-file-alt stat-icon"></i>
+                    </div>
+                    <div class="admin-stat-card">
+                        <div class="stat-value" id="system-health">100%</div>
+                        <div class="stat-label">Salute Sistema</div>
+                        <i class="fas fa-heartbeat stat-icon"></i>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3>Panoramica Sistema</h3>
+                        <button class="admin-btn admin-btn-purple" onclick="refreshStats()">
+                            <i class="fas fa-sync-alt"></i> Aggiorna
+                        </button>
+                    </div>
+                    <div class="admin-card-body">
+                        <div class="form-grid">
+                            <div>
+                                <h4>Attività Recenti</h4>
+                                <div id="recent-activity">
+                                    <!-- Caricato dinamicamente -->
+                                </div>
+                            </div>
+                            <div>
+                                <h4>Stato Server</h4>
+                                <div id="server-status">
+                                    <div class="status-badge status-active">Online</div>
+                                    <p>Uptime: <span id="uptime">99.9%</span></p>
+                                    <p>Ultimo backup: <span id="last-backup">2 ore fa</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Users Management Section -->
+            <section id="users" class="admin-section">
+                <div class="user-creation-section">
+                    <div class="admin-form">
+                        <h3>Crea Nuovo Utente</h3>
+                        <form id="create-user-form">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Nome *</label>
+                                    <input type="text" class="form-control" name="firstName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Cognome *</label>
+                                    <input type="text" class="form-control" name="lastName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email *</label>
+                                    <input type="email" class="form-control" name="email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Grado *</label>
+                                    <select class="form-control" name="rankId" id="rank-select" required>
+                                        <!-- Caricato dinamicamente -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Dipartimento</label>
+                                    <select class="form-control" name="department">
+                                        <option value="Patrol">Pattuglia</option>
+                                        <option value="Traffic">Traffico</option>
+                                        <option value="Detective">Investigativo</option>
+                                        <option value="SWAT">SWAT</option>
+                                        <option value="Administration">Amministrazione</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Turno</label>
+                                    <select class="form-control" name="shift">
+                                        <option value="Day">Giorno</option>
+                                        <option value="Evening">Sera</option>
+                                        <option value="Night">Notte</option>
+                                        <option value="All">Tutti</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="admin-btn admin-btn-success">
+                                <i class="fas fa-user-plus"></i> Crea Utente
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <div class="batch-creation">
+                        <h4>Creazione Batch</h4>
+                        <p>Carica un file CSV per creare più utenti contemporaneamente</p>
+                        <div class="form-group">
+                            <label>File CSV</label>
+                            <input type="file" class="form-control" id="csv-file" accept=".csv">
+                        </div>
+                        <button class="admin-btn admin-btn-purple" onclick="uploadCSV()">
+                            <i class="fas fa-upload"></i> Carica CSV
+                        </button>
+                        <br><br>
+                        <button class="admin-btn admin-btn-warning" onclick="downloadTemplate()">
+                            <i class="fas fa-download"></i> Scarica Template
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3>Lista Utenti</h3>
+                        <div>
+                            <button class="admin-btn admin-btn-warning" onclick="exportUsers()">
+                                <i class="fas fa-file-export"></i> Esporta
+                            </button>
+                            <button class="admin-btn admin-btn-purple" onclick="loadUsers()">
+                                <i class="fas fa-sync-alt"></i> Aggiorna
+                            </button>
+                        </div>
+                    </div>
+                    <div class="admin-card-body">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Badge</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Grado</th>
+                                    <th>Dipartimento</th>
+                                    <th>Stato</th>
+                                    <th>Ultimo Accesso</th>
+                                    <th>Azioni</th>
+                                </tr>
+                            </thead>
+                            <tbody id="users-table">
+                                <!-- Caricato dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- System Section -->
+            <section id="system" class="admin-section">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3>Monitoraggio Sistema</h3>
+                        <button class="admin-btn admin-btn-purple" onclick="checkSystemHealth()">
+                            <i class="fas fa-diagnoses"></i> Diagnosi
+                        </button>
+                    </div>
+                    <div class="admin-card-body">
+                        <div class="form-grid">
+                            <div>
+                                <h4>Performance</h4>
+                                <div id="system-performance">
+                                    <p>CPU: <span class="status-badge status-active">Normal</span></p>
+                                    <p>RAM: <span class="status-badge status-active">Normal</span></p>
+                                    <p>Storage: <span class="status-badge status-active">Normal</span></p>
+                                </div>
+                            </div>
+                            <div>
+                                <h4>Database</h4>
+                                <div id="database-status">
+                                    <p>Connessione: <span class="status-badge status-active">Attiva</span></p>
+                                    <p>Dimensione DB: <span id="db-size">156 MB</span></p>
+                                    <p>Query/sec: <span id="queries-per-sec">42</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- AGGIUNGERE QUESTA SEZIONE al file admin-panel.html dopo la sezione "system" -->
+            <!-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+            <!-- Security Dashboard Section -->
+            <!-- AGGIUNGERE QUESTA SEZIONE al file admin-panel.html dopo la sezione "system" -->
+            <!-- AGGIUNGERE QUESTA SEZIONE al file admin-panel.html dopo la sezione "system" -->
+            
+            <!-- AGGIUNGERE QUESTA SEZIONE al file admin-panel.html dopo la sezione "system" -->
+            
+            <!-- Security Dashboard Section -->
+<section id="security" class="admin-section">
+    <div class="admin-stats">
+        <div class="admin-stat-card">
+            <div class="stat-value" id="security-logins-24h">0</div>
+            <div class="stat-label">Login 24h</div>
+            <i class="fas fa-sign-in-alt stat-icon"></i>
+        </div>
+        <div class="admin-stat-card">
+            <div class="stat-value" id="security-failed-logins">0</div>
+            <div class="stat-label">Login Falliti</div>
+            <i class="fas fa-exclamation-triangle stat-icon"></i>
+        </div>
+        <div class="admin-stat-card">
+            <div class="stat-value" id="security-locked-accounts">0</div>
+            <div class="stat-label">Account Bloccati</div>
+            <i class="fas fa-lock stat-icon"></i>
+        </div>
+        <div class="admin-stat-card">
+            <div class="stat-value" id="security-password-warnings">0</div>
+            <div class="stat-label">Password da Cambiare</div>
+            <i class="fas fa-key stat-icon"></i>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+        <!-- Password Policy Settings -->
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h3>Password Policy</h3>
+                <button class="admin-btn admin-btn-success" onclick="savePasswordPolicy()">
+                    <i class="fas fa-save"></i> Salva Policy
+                </button>
+            </div>
+            <div class="admin-card-body">
+                <form id="password-policy-form">
+                    <div class="form-group">
+                        <label>Lunghezza Minima</label>
+                        <input type="number" class="form-control" name="minLength" min="6" max="32" value="8">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="requireUppercase" checked> Richiedi Maiuscole
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="requireNumbers" checked> Richiedi Numeri
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" name="requireSpecialChars"> Richiedi Caratteri Speciali
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Scadenza Password (giorni)</label>
+                        <input type="number" class="form-control" name="expiryDays" min="0" max="365" value="90">
+                        <small style="color: var(--text-secondary);">0 = nessuna scadenza</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tentativi Login Max</label>
+                        <input type="number" class="form-control" name="maxLoginAttempts" min="3" max="10" value="5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Durata Blocco (minuti)</label>
+                        <input type="number" class="form-control" name="lockoutDuration" min="5" max="120" value="30">
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Security Warnings -->
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h3>Avvisi di Sicurezza</h3>
+                <button class="admin-btn admin-btn-purple" onclick="loadPasswordWarnings()">
+                    <i class="fas fa-sync-alt"></i> Aggiorna
+                </button>
+            </div>
+            <div class="admin-card-body">
+                <div id="password-warnings-list">
+                    <!-- Caricato dinamicamente -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Events -->
+    <div class="admin-card">
+        <div class="admin-card-header">
+            <h3>Eventi di Sicurezza Recenti</h3>
+            <div>
+                <button class="admin-btn admin-btn-warning" onclick="exportSecurityLog()">
+                    <i class="fas fa-download"></i> Export
+                </button>
+                <button class="admin-btn admin-btn-purple" onclick="loadSecurityEvents()">
+                    <i class="fas fa-sync-alt"></i> Aggiorna
+                </button>
+            </div>
+        </div>
+        <div class="admin-card-body">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Evento</th>
+                        <th>Utente/IP</th>
+                        <th>Risultato</th>
+                        <th>Azioni</th>
+                    </tr>
+                </thead>
+                <tbody id="security-events-table">
+                    <!-- Caricato dinamicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- IP Address Analytics -->
+    <div class="admin-card">
+        <div class="admin-card-header">
+            <h3>Analisi Indirizzi IP (24h)</h3>
+        </div>
+        <div class="admin-card-body">
+            <div id="ip-analytics">
+                <!-- Caricato dinamicamente -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Account Unlock Modal -->
+<div id="unlock-account-modal" class="admin-modal">
+    <div class="admin-modal-content">
+        <div class="modal-header">
+            <h3>Sblocca Account</h3>
+            <button class="close-modal" onclick="closeModal('unlock-account-modal')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div style="padding: 1rem;">
+            <div class="form-group">
+                <label>Badge o Email Utente</label>
+                <input type="text" class="form-control" id="unlock-identifier" placeholder="Inserisci badge o email">
+            </div>
+            <div class="form-group">
+                <label>Motivo</label>
+                <textarea class="form-control" id="unlock-reason" rows="3" placeholder="Motivo dello sblocco (opzionale)"></textarea>
+            </div>
+            <div style="text-align: right;">
+                <button class="admin-btn admin-btn-success" onclick="unlockAccount()">
+                    <i class="fas fa-unlock"></i> Sblocca Account
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Password Reset Modal -->
+<div id="force-reset-modal" class="admin-modal">
+    <div class="admin-modal-content">
+        <div class="modal-header">
+            <h3>Reset Password Forzato</h3>
+            <button class="close-modal" onclick="closeModal('force-reset-modal')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div style="padding: 1rem;">
+            <div class="admin-alert admin-alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>Questa azione resetterà la password dell'utente e richiederà un cambio al prossimo login.</div>
+            </div>
+            <div class="form-group">
+                <label>Motivo</label>
+                <textarea class="form-control" id="reset-reason" rows="3" placeholder="Motivo del reset (opzionale)" required></textarea>
+            </div>
+            <div style="text-align: right;">
+                <button class="admin-btn admin-btn-danger" onclick="forcePasswordReset()">
+                    <i class="fas fa-key"></i> Reset Password
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Stili aggiuntivi per la dashboard sicurezza */
+.password-warning-item {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    border-left: 4px solid;
+    font-size: 0.9rem;
+}
+
+.password-warning-critical {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: var(--danger-color);
+}
+
+.password-warning-high {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: var(--warning-color);
+}
+
+.password-warning-medium {
+    background: rgba(59, 130, 246, 0.1);
+    border-color: var(--secondary-color);
+}
+
+.ip-stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: var(--glass-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.event-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.event-success {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--success-color);
+}
+
+.event-failed {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--danger-color);
+}
+
+.event-warning {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--warning-color);
+}
+</style>
+
+<script>
+// ISTRUZIONI: Questi metodi vanno AGGIUNTI alla classe SuperAdminPanel esistente nel file admin-panel.html
+
+// 1. AGGIUNGERE alla navigazione sidebar:
+/*
+<li class="admin-nav-item">
+    <a href="#" class="admin-nav-link" data-section="security">
+        <i class="fas fa-shield-alt"></i>
+        Sicurezza
+    </a>
+</li>
+*/
+
+// 2. AGGIORNARE il dizionario titles in setupNavigation():
+/*
+const titles = {
+    'dashboard': 'Dashboard',
+    'users': 'Gestione Utenti',
+    'system': 'Sistema',
+    'logs': 'Audit Logs',
+    'backup': 'Backup & Export',
+    'settings': 'Configurazioni',
+    'security': 'Dashboard Sicurezza'  // <-- AGGIUNGERE QUESTA LINEA
+};
+*/
+
+// 3. AGGIUNGERE questo case nel metodo loadSectionData():
+/*
+case 'security':
+    await this.loadSecurityDashboard();
+    await this.loadPasswordWarnings();
+    break;
+*/
+
+// 4. AGGIUNGERE questi metodi alla classe SuperAdminPanel:
+
+async loadSecurityDashboard() {
+    try {
+        const data = await this.apiCall('/admin/security');
+        
+        // Update security stats
+        document.getElementById('security-logins-24h').textContent = data.stats.totalLogins24h;
+        document.getElementById('security-failed-logins').textContent = data.stats.failedLogins24h;
+        document.getElementById('security-locked-accounts').textContent = data.stats.lockedAccounts;
+        document.getElementById('security-password-warnings').textContent = data.stats.usersNeedingPasswordChange;
+        
+        // Load password policy
+        this.loadPasswordPolicy(data.policy);
+        
+        // Load security events
+        this.displaySecurityEvents(data.recentEvents);
+        
+        // Load IP analytics
+        this.displayIPAnalytics(data.ipStats);
+        
+    } catch (error) {
+        console.error('Failed to load security dashboard:', error);
+    }
+}
+
+async loadPasswordPolicy(policy = null) {
+    try {
+        if (!policy) {
+            policy = await this.apiCall('/admin/password-policy');
+        }
+        
+        const form = document.getElementById('password-policy-form');
+        
+        // Populate form
+        form.querySelector('[name="minLength"]').value = policy.minLength;
+        form.querySelector('[name="requireUppercase"]').checked = policy.requireUppercase;
+        form.querySelector('[name="requireNumbers"]').checked = policy.requireNumbers;
+        form.querySelector('[name="requireSpecialChars"]').checked = policy.requireSpecialChars;
+        form.querySelector('[name="expiryDays"]').value = policy.expiryDays;
+        form.querySelector('[name="maxLoginAttempts"]').value = policy.maxLoginAttempts;
+        form.querySelector('[name="lockoutDuration"]').value = policy.lockoutDuration;
+        
+    } catch (error) {
+        console.error('Failed to load password policy:', error);
+    }
+}
+
+async savePasswordPolicy() {
+    try {
+        const form = document.getElementById('password-policy-form');
+        const formData = new FormData(form);
+        
+        // Convert form data to proper format
+        const policy = {
+            minLength: parseInt(formData.get('minLength')),
+            requireUppercase: formData.has('requireUppercase'),
+            requireNumbers: formData.has('requireNumbers'),
+            requireSpecialChars: formData.has('requireSpecialChars'),
+            expiryDays: parseInt(formData.get('expiryDays')),
+            maxLoginAttempts: parseInt(formData.get('maxLoginAttempts')),
+            lockoutDuration: parseInt(formData.get('lockoutDuration'))
+        };
+        
+        await this.apiCall('/admin/password-policy', {
+            method: 'PUT',
+            body: JSON.stringify(policy)
+        });
+        
+        this.showAlert('Password policy aggiornata con successo!', 'success');
+        
+    } catch (error) {
+        console.error('Failed to save password policy:', error);
+    }
+}
+
+async loadPasswordWarnings() {
+    try {
+        const data = await this.apiCall('/admin/users/password-warnings');
+        const container = document.getElementById('password-warnings-list');
+        
+        container.innerHTML = '';
+        
+        if (data.users.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: var(--success-color);">✅ Nessun avviso di sicurezza</p>';
+            return;
+        }
+        
+        // Group by priority
+        const grouped = {
+            critical: data.users.filter(u => u.priority === 'critical'),
+            high: data.users.filter(u => u.priority === 'high'),
+            medium: data.users.filter(u => u.priority === 'medium')
+        };
+        
+        Object.keys(grouped).forEach(priority => {
+            if (grouped[priority].length === 0) return;
+            
+            const section = document.createElement('div');
+            section.innerHTML = `<h5 style="margin: 1rem 0 0.5rem 0; color: var(--text-primary);">${priority.toUpperCase()} (${grouped[priority].length})</h5>`;
+            container.appendChild(section);
+            
+            grouped[priority].forEach(user => {
+                const item = document.createElement('div');
+                item.className = `password-warning-item password-warning-${priority}`;
+                
+                let statusText = '';
+                if (user.status === 'expired') {
+                    statusText = '🔴 Password scaduta';
+                } else if (user.status === 'requires_change') {
+                    statusText = '🔶 Richiede cambio';
+                } else if (user.status === 'warning') {
+                    statusText = `⚠️ Scade tra ${user.daysUntilExpiry} giorni`;
+                }
+                
+                item.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <strong>${user.firstName} ${user.lastName}</strong> (${user.badge})<br>
+                            <small>${statusText} • ${user.passwordAge} giorni fa</small>
+                        </div>
+                        <div>
+                            <button class="admin-btn admin-btn-warning" onclick="adminPanel.forceResetUser('${user._id}')" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">
+                                <i class="fas fa-key"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        });
+        
+    } catch (error) {
+        console.error('Failed to load password warnings:', error);
+    }
+}
+
+displaySecurityEvents(events) {
+    const tbody = document.getElementById('security-events-table');
+    tbody.innerHTML = '';
+    
+    if (!events || events.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Nessun evento recente</td></tr>';
+        return;
+    }
+    
+    events.forEach(event => {
+        const tr = document.createElement('tr');
+        
+        let eventClass = 'event-success';
+        let eventIcon = 'check-circle';
+        let actionText = '';
+        
+        switch (event.action) {
+            case 'LOGIN':
+                eventClass = 'event-success';
+                eventIcon = 'sign-in-alt';
+                actionText = 'Login riuscito';
+                break;
+            case 'FAILED_LOGIN':
+                eventClass = 'event-failed';
+                eventIcon = 'times-circle';
+                actionText = 'Login fallito';
+                break;
+            case 'PASSWORD_CHANGED':
+                eventClass = 'event-success';
+                eventIcon = 'key';
+                actionText = 'Password cambiata';
+                break;
+            case 'RESET_PASSWORD':
+                eventClass = 'event-warning';
+                eventIcon = 'undo';
+                actionText = 'Password resettata';
+                break;
+            default:
+                eventClass = 'event-warning';
+                eventIcon = 'info-circle';
+                actionText = event.action;
+        }
+        
+        tr.innerHTML = `
+            <td>${new Date(event.timestamp).toLocaleString()}</td>
+            <td>
+                <span class="event-badge ${eventClass}">
+                    <i class="fas fa-${eventIcon}"></i> ${actionText}
+                </span>
+            </td>
+            <td>${event.userId}</td>
+            <td>${event.ipAddress || 'N/A'}</td>
+            <td>
+                <button class="admin-btn" onclick="adminPanel.viewEventDetails('${event._id}')" style="font-size: 0.8rem; padding: 0.4rem 0.8rem;">
+                    <i class="fas fa-eye"></i>
+                </button>
+                ${event.action === 'FAILED_LOGIN' ? 
+                    `<button class="admin-btn admin-btn-warning" onclick="adminPanel.showUnlockModal('${event.userId}')" style="font-size: 0.8rem; padding: 0.4rem 0.8rem; margin-left: 0.5rem;">
+                        <i class="fas fa-unlock"></i>
+                    </button>` : ''
+                }
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+displayIPAnalytics(ipStats) {
+    const container = document.getElementById('ip-analytics');
+    container.innerHTML = '';
+    
+    if (!ipStats || ipStats.length === 0) {
+        container.innerHTML = '<p style="text-align: center;">Nessun dato IP disponibile</p>';
+        return;
+    }
+    
+    ipStats.forEach(stat => {
+        const item = document.createElement('div');
+        item.className = 'ip-stat-item';
+        
+        const riskLevel = stat.count > 50 ? 'high' : stat.count > 20 ? 'medium' : 'low';
+        const riskColor = riskLevel === 'high' ? 'var(--danger-color)' : 
+                         riskLevel === 'medium' ? 'var(--warning-color)' : 'var(--success-color)';
+        
+        item.innerHTML = `
+            <div>
+                <strong>${stat._id}</strong><br>
+                <small>Azioni: ${stat.actions.join(', ')}</small>
+            </div>
+            <div style="text-align: right;">
+                <span style="color: ${riskColor}; font-weight: 600;">${stat.count} richieste</span><br>
+                <small style="color: var(--text-secondary);">Rischio: ${riskLevel}</small>
+            </div>
+        `;
+        container.appendChild(item);
+    });
+}
+
+async loadSecurityEvents() {
+    try {
+        const data = await this.apiCall('/admin/security');
+        this.displaySecurityEvents(data.recentEvents);
+        this.showAlert('Eventi di sicurezza aggiornati', 'success');
+    } catch (error) {
+        console.error('Failed to load security events:', error);
+    }
+}
+
+async exportSecurityLog() {
+    try {
+        await this.apiCall('/admin/export/logs');
+        this.showAlert('Export log di sicurezza completato!', 'success');
+    } catch (error) {
+        console.error('Failed to export security log:', error);
+    }
+}
+
+showUnlockModal(identifier = '') {
+    document.getElementById('unlock-identifier').value = identifier;
+    this.openModal('unlock-account-modal');
+}
+
+async unlockAccount() {
+    try {
+        const identifier = document.getElementById('unlock-identifier').value.trim();
+        const reason = document.getElementById('unlock-reason').value.trim();
+        
+        if (!identifier) {
+            this.showAlert('Inserire badge o email dell\'utente', 'error');
+            return;
+        }
+        
+        const result = await this.apiCall('/admin/unlock-account', {
+            method: 'POST',
+            body: JSON.stringify({ identifier, reason })
+        });
+        
+        this.showAlert(`Account ${result.user.badge} sbloccato con successo!`, 'success');
+        this.closeModal('unlock-account-modal');
+        this.loadSecurityDashboard();
+        
+        // Clear form
+        document.getElementById('unlock-identifier').value = '';
+        document.getElementById('unlock-reason').value = '';
+        
+    } catch (error) {
+        console.error('Failed to unlock account:', error);
+    }
+}
+
+forceResetUser(userId) {
+    this.currentResetUserId = userId;
+    this.openModal('force-reset-modal');
+}
+
+async forcePasswordReset() {
+    try {
+        const reason = document.getElementById('reset-reason').value.trim();
+        
+        if (!reason) {
+            this.showAlert('Inserire il motivo del reset', 'error');
+            return;
+        }
+        
+        const result = await this.apiCall('/admin/force-password-reset', {
+            method: 'POST',
+            body: JSON.stringify({ 
+                userId: this.currentResetUserId,
+                reason 
+            })
+        });
+        
+        this.showAlert(
+            `Password resettata con successo!<br>
+            <strong>Badge:</strong> ${result.credentials.badge}<br>
+            <strong>Nuova password:</strong> <code style="background: rgba(255,255,255,0.1); padding: 0.2rem 0.4rem; border-radius: 4px;">${result.credentials.newPassword}</code>`, 
+            'success'
+        );
+        
+        this.closeModal('force-reset-modal');
+        this.loadPasswordWarnings();
+        
+        // Clear form
+        document.getElementById('reset-reason').value = '';
+        
+    } catch (error) {
+        console.error('Failed to force password reset:', error);
+    }
+}
+
+viewEventDetails(eventId) {
+    this.showAlert('Visualizzazione dettagli evento in sviluppo', 'warning');
+    // TODO: Implement event details modal with full audit information
+}
+
+// 5. AGGIUNGERE queste funzioni globali ALLA FINE del file admin-panel.html (dopo la classe):
+
+function savePasswordPolicy() {
+    adminPanel.savePasswordPolicy();
+}
+
+function loadPasswordWarnings() {
+    adminPanel.loadPasswordWarnings();
+}
+
+function loadSecurityEvents() {
+    adminPanel.loadSecurityEvents();
+}
+
+function exportSecurityLog() {
+    adminPanel.exportSecurityLog();
+}
+
+function unlockAccount() {
+    adminPanel.unlockAccount();
+}
+
+function forcePasswordReset() {
+    adminPanel.forcePasswordReset();
+}
+</script>
+        
+        
+        
+          
+        <!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <!-- Audit Logs Section -->
+        <section id="logs" class="admin-section">
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h3>Log delle Attività</h3>
+                    <button class="admin-btn admin-btn-warning" onclick="exportLogs()">
+                        <i class="fas fa-download"></i> Esporta Log
+                    </button>
+                </div>
+                <div class="admin-card-body">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Utente</th>
+                                <th>Azione</th>
+                                <th>Risorsa</th>
+                                <th>IP</th>
+                                <th>Dettagli</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logs-table">
+                            <!-- Caricato dinamicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Backup Section -->
+        <section id="backup" class="admin-section">
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h3>Backup e Export</h3>
+                </div>
+                <div class="admin-card-body">
+                    <div class="form-grid">
+                        <div>
+                            <h4>Backup Database</h4>
+                            <p>Crea un backup completo del database</p>
+                            <button class="admin-btn admin-btn-success" onclick="createBackup()">
+                                <i class="fas fa-save"></i> Crea Backup
+                            </button>
+                        </div>
+                        <div>
+                            <h4>Export Dati</h4>
+                            <p>Esporta dati in formato CSV</p>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <button class="admin-btn" onclick="exportData('users')">
+                                    <i class="fas fa-users"></i> Utenti
+                                </button>
+                                <button class="admin-btn" onclick="exportData('reports')">
+                                    <i class="fas fa-file-alt"></i> Report
+                                </button>
+                                <button class="admin-btn" onclick="exportData('logs')">
+                                    <i class="fas fa-list"></i> Logs
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Settings Section -->
+        <section id="settings" class="admin-section">
+            <div class="admin-card">
+                <div class="admin-card-header">
+                    <h3>Configurazioni Sistema</h3>
+                    <button class="admin-btn admin-btn-success" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> Salva Impostazioni
+                    </button>
+                </div>
+                <div class="admin-card-body">
+                    <form id="settings-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nome Sistema</label>
+                                <input type="text" class="form-control" name="systemName" value="LSPD Management System">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Admin</label>
+                                <input type="email" class="form-control" name="adminEmail" value="admin@lspd.gov">
+                            </div>
+                            <div class="form-group">
+                                <label>Sessione Utenti (ore)</label>
+                                <input type="number" class="form-control" name="sessionDuration" value="8" min="1" max="24">
+                            </div>
+                            <div class="form-group">
+                                <label>Backup Automatico</label>
+                                <select class="form-control" name="autoBackup">
+                                    <option value="daily">Giornaliero</option>
+                                    <option value="weekly">Settimanale</option>
+                                    <option value="monthly">Mensile</option>
+                                    <option value="disabled">Disabilitato</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Modals -->
+<div id="user-modal" class="admin-modal">
+    <div class="admin-modal-content">
+        <div class="modal-header">
+            <h3>Dettagli Utente</h3>
+            <button class="close-modal" onclick="closeModal('user-modal')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="user-modal-body">
+            <!-- Contenuto caricato dinamicamente -->
+        </div>
+    </div>
+</div>
+
+<script>
+    class SuperAdminPanel {
+        constructor() {
+            this.apiUrl = 'https://lspd-bankend.onrender.com/api';
+            this.token = localStorage.getItem('lspd_token');
+            this.admin = JSON.parse(localStorage.getItem('lspd_user') || 'null');
+            
+            if (!this.token || !this.admin || localStorage.getItem('lspd_user_type') !== 'admin') {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            this.init();
+        }
+        
+        async init() {
+            this.setupNavigation();
+            this.displayAdminInfo();
+            this.loadDashboardData();
+            this.loadRanks();
+            this.setupEventListeners();
+        }
+        
+        setupNavigation() {
+            const navLinks = document.querySelectorAll('.admin-nav-link');
+            const sections = document.querySelectorAll('.admin-section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const sectionId = link.dataset.section;
+                    
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+                    
+                    link.classList.add('active');
+                    document.getElementById(sectionId).classList.add('active');
+                    
+                    const titles = {
+                        'dashboard': 'Dashboard',
+                        'users': 'Gestione Utenti',
+                        'system': 'Sistema',
+                        'logs': 'Audit Logs',
+                        'backup': 'Backup & Export',
+                        'settings': 'Configurazioni'
+                    };
+                    document.getElementById('page-title').textContent = titles[sectionId] || 'Dashboard';
+                    
+                    this.loadSectionData(sectionId);
+                });
+            });
+        }
+        
+        displayAdminInfo() {
+            document.getElementById('admin-name').textContent = `${this.admin.firstName} ${this.admin.lastName}`;
+        }
+        
+        async apiCall(endpoint, options = {}) {
+            try {
+                const response = await fetch(`${this.apiUrl}${endpoint}`, {
+                    headers: {
+                        'Authorization': `Bearer ${this.token}`,
+                        'Content-Type': 'application/json',
+                        ...options.headers
+                    },
+                    ...options
+                });
+                
+                if (response.status === 401) {
+                    this.logout();
+                    return null;
+                }
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.error || 'Request failed');
+                }
+                
+                return data;
+            } catch (error) {
+                console.error('API Error:', error);
+                this.showAlert(error.message, 'error');
+                throw error;
+            }
+        }
+        
+        async loadDashboardData() {
+            try {
+                // Simulated data for now - replace with real API calls
+                document.getElementById('total-users').textContent = '127';
+                document.getElementById('active-users').textContent = '98';
+                document.getElementById('total-reports').textContent = '1,234';
+                
+            } catch (error) {
+                console.error('Failed to load dashboard data:', error);
+            }
+        }
+        
+        async loadRanks() {
+            try {
+                const ranks = await this.apiCall('/ranks');
+                const select = document.getElementById('rank-select');
+                
+                select.innerHTML = '';
+                ranks.forEach(rank => {
+                    const option = document.createElement('option');
+                    option.value = rank._id;
+                    option.textContent = rank.name;
+                    select.appendChild(option);
+                });
+                
+            } catch (error) {
+                console.error('Failed to load ranks:', error);
+            }
+        }
+        
+        async loadUsers() {
+            try {
+                const users = await this.apiCall('/personnel');
+                const tbody = document.getElementById('users-table');
+                tbody.innerHTML = '';
+                
+                users.forEach(user => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                            <td>${user.badge}</td>
+                            <td>${user.firstName} ${user.lastName}</td>
+                            <td>${user.email}</td>
+                            <td>${user.rank.name}</td>
+                            <td>${user.department}</td>
+                            <td><span class="status-badge status-${user.status.toLowerCase()}">${user.status}</span></td>
+                            <td>${user.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Mai'}</td>
+                            <td>
+                                <button class="admin-btn admin-btn-warning" onclick="adminPanel.editUser('${user._id}')">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="admin-btn admin-btn-danger" onclick="adminPanel.resetPassword('${user._id}')">
+                                    <i class="fas fa-key"></i>
+                                </button>
+                            </td>
+                        `;
+                    tbody.appendChild(tr);
+                });
+                
+            } catch (error) {
+                console.error('Failed to load users:', error);
+            }
+        }
+        
+        async loadSectionData(sectionId) {
+            switch(sectionId) {
+                case 'users':
+                await this.loadUsers();
+                break;
+                case 'logs':
+                await this.loadAuditLogs();
+                break;
+                case 'system':
+                await this.loadSystemInfo();
+                break;
+            }
+        }
+        
+        async loadAuditLogs() {
+            try {
+                // Simulated audit logs - replace with real API call
+                const tbody = document.getElementById('logs-table');
+                tbody.innerHTML = '';
+                
+                const sampleLogs = [
+                {
+                    timestamp: new Date().toLocaleString(),
+                    user: 'admin@lspd.gov',
+                    action: 'LOGIN',
+                    resource: 'AUTH',
+                    ip: '192.168.1.100',
+                    details: 'Successful login'
+                },
+                {
+                    timestamp: new Date(Date.now() - 300000).toLocaleString(),
+                    user: 'officer@lspd.gov',
+                    action: 'CREATE_REPORT',
+                    resource: 'REPORTS',
+                    ip: '192.168.1.105',
+                    details: 'Report RPT-12345 created'
+                }
+                ];
+                
+                sampleLogs.forEach(log => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                            <td>${log.timestamp}</td>
+                            <td>${log.user}</td>
+                            <td><span class="status-badge status-active">${log.action}</span></td>
+                            <td>${log.resource}</td>
+                            <td>${log.ip}</td>
+                            <td>${log.details}</td>
+                        `;
+                    tbody.appendChild(tr);
+                });
+                
+            } catch (error) {
+                console.error('Failed to load audit logs:', error);
+            }
+        }
+        
+        async loadSystemInfo() {
+            try {
+                // Simulated system info - replace with real API call
+                document.getElementById('db-size').textContent = '156 MB';
+                document.getElementById('queries-per-sec').textContent = '42';
+                document.getElementById('uptime').textContent = '99.9%';
+                
+            } catch (error) {
+                console.error('Failed to load system info:', error);
+            }
+        }
+        
+        setupEventListeners() {
+            // Form submissions
+            document.getElementById('create-user-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.createUser(e.target);
+            });
+            
+            document.getElementById('settings-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                this.saveSettings();
+            });
+        }
+        
+        async createUser(form) {
+            try {
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData);
+                
+                const result = await this.apiCall('/personnel', {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                });
+                
+                this.showAlert(`Utente creato con successo! Badge: ${result.user.badge}, Password temporanea: ${result.temporaryPassword}`, 'success');
+                form.reset();
+                this.loadUsers();
+                
+            } catch (error) {
+                console.error('Failed to create user:', error);
+            }
+        }
+        
+        async editUser(userId) {
+            this.showAlert('Funzionalità di modifica in sviluppo', 'warning');
+        }
+        
+        async resetPassword(userId) {
+            if (confirm('Sei sicuro di voler resettare la password di questo utente?')) {
+                try {
+                    // Simulate API call
+                    const newPassword = this.generateTempPassword();
+                    this.showAlert(`Password resettata! Nuova password: ${newPassword}`, 'success');
+                    
+                } catch (error) {
+                    console.error('Failed to reset password:', error);
+                }
+            }
+        }
+        
+        generateTempPassword() {
+            const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+            let password = '';
+            for (let i = 0; i < 8; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return password;
+        }
+        
+        async uploadCSV() {
+            const fileInput = document.getElementById('csv-file');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                this.showAlert('Seleziona un file CSV', 'error');
+                return;
+            }
+            
+            // Simulate CSV processing
+            this.showAlert('Funzionalità CSV upload in sviluppo', 'warning');
+        }
+        
+        downloadTemplate() {
+            const csvContent = 'firstName,lastName,email,rankName,department,shift\nMario,Rossi,mario.rossi@lspd.gov,Officer,Patrol,Day\n';
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'lspd_users_template.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+        
+        async exportUsers() {
+            this.showAlert('Export utenti in corso...', 'success');
+            // Simulate export functionality
+        }
+        
+        async exportData(type) {
+            this.showAlert(`Export ${type} in corso...`, 'success');
+            // Simulate export functionality
+        }
+        
+        async exportLogs() {
+            this.showAlert('Export logs in corso...', 'success');
+            // Simulate export functionality
+        }
+        
+        async createBackup() {
+            if (confirm('Creare un backup completo del database? Questa operazione potrebbe richiedere alcuni minuti.')) {
+                this.showAlert('Backup in corso...', 'success');
+                // Simulate backup creation
+                setTimeout(() => {
+                    this.showAlert('Backup completato con successo!', 'success');
+                }, 3000);
+            }
+        }
+        
+        async saveSettings() {
+            try {
+                const formData = new FormData(document.getElementById('settings-form'));
+                const settings = Object.fromEntries(formData);
+                
+                // Simulate API call
+                this.showAlert('Impostazioni salvate con successo!', 'success');
+                
+            } catch (error) {
+                console.error('Failed to save settings:', error);
+            }
+        }
+        
+        async refreshStats() {
+            this.showAlert('Aggiornamento statistiche...', 'success');
+            await this.loadDashboardData();
+        }
+        
+        async checkSystemHealth() {
+            this.showAlert('Diagnosi sistema in corso...', 'success');
+            await this.loadSystemInfo();
+        }
+        
+        openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+        
+        closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        showAlert(message, type = 'info') {
+            // Remove existing alerts
+            const existingAlerts = document.querySelectorAll('.admin-alert');
+            existingAlerts.forEach(alert => alert.remove());
+            
+            // Create new alert
+            const alert = document.createElement('div');
+            alert.className = `admin-alert admin-alert-${type}`;
+            
+            const icon = type === 'success' ? 'check-circle' : 
+            type === 'error' ? 'exclamation-circle' : 
+            type === 'warning' ? 'exclamation-triangle' : 'info-circle';
+            
+            alert.innerHTML = `
+                    <i class="fas fa-${icon}"></i>
+                    <span>${message}</span>
+                `;
+            
+            // Insert at top of main content
+            const mainContent = document.querySelector('.admin-main');
+            const header = document.querySelector('.admin-header');
+            mainContent.insertBefore(alert, header.nextSibling);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+        
+        logout() {
+            localStorage.removeItem('lspd_token');
+            localStorage.removeItem('lspd_user');
+            localStorage.removeItem('lspd_user_type');
+            window.location.href = 'login.html';
+        }
+    }
+    
+    // Global functions
+    function openModal(modalId) {
+        adminPanel.openModal(modalId);
+    }
+    
+    function closeModal(modalId) {
+        adminPanel.closeModal(modalId);
+    }
+    
+    function logout() {
+        adminPanel.logout();
+    }
+    
+    function refreshStats() {
+        adminPanel.refreshStats();
+    }
+    
+    function loadUsers() {
+        adminPanel.loadUsers();
+    }
+    
+    function uploadCSV() {
+        adminPanel.uploadCSV();
+    }
+    
+    function downloadTemplate() {
+        adminPanel.downloadTemplate();
+    }
+    
+    function exportUsers() {
+        adminPanel.exportUsers();
+    }
+    
+    function exportData(type) {
+        adminPanel.exportData(type);
+    }
+    
+    function exportLogs() {
+        adminPanel.exportLogs();
+    }
+    
+    function createBackup() {
+        adminPanel.createBackup();
+    }
+    
+    function saveSettings() {
+        adminPanel.saveSettings();
+    }
+    
+    function checkSystemHealth() {
+        adminPanel.checkSystemHealth();
+    }
+    
+    // Initialize admin panel when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+        window.adminPanel = new SuperAdminPanel();
+    });
+    
+    // Close modals when clicking outside
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('admin-modal')) {
+            e.target.classList.remove('active');
+        }
+    });
+    
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+        const sidebar = document.querySelector('.admin-sidebar');
+        sidebar.classList.toggle('mobile-open');
+    }
+</script>
+</body>
+</html>

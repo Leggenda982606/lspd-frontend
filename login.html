@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* CSS rimane uguale per ora - solo aggiorniamo le credenziali demo */
         :root {
             --primary-dark: #1a202c;
             --secondary-dark: #2d3748;
@@ -54,7 +55,7 @@
             flex: 1;
             background: 
                 linear-gradient(135deg, rgba(49, 130, 206, 0.1) 0%, rgba(214, 158, 46, 0.1) 100%),
-                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%231a202c;stop-opacity:1" /><stop offset="50%" style="stop-color:%232d3748;stop-opacity:1" /><stop offset="100%" style="stop-color:%234a5568;stop-opacity:1" /></linearGradient></defs><rect width="800" height="600" fill="url(%23bg)"/><rect x="50" y="400" width="40" height="200" fill="%23171923" opacity="0.6"/><rect x="100" y="350" width="50" height="250" fill="%231a202c" opacity="0.7"/><rect x="160" y="380" width="30" height="220" fill="%23171923" opacity="0.6"/><rect x="200" y="320" width="60" height="280" fill="%231a202c" opacity="0.7"/><rect x="270" y="360" width="45" height="240" fill="%23171923" opacity="0.6"/><rect x="325" y="300" width="55" height="300" fill="%231a202c" opacity="0.7"/><rect x="390" y="340" width="40" height="260" fill="%23171923" opacity="0.6"/><rect x="440" y="280" width="65" height="320" fill="%231a202c" opacity="0.7"/><rect x="515" y="320" width="50" height="280" fill="%23171923" opacity="0.6"/><rect x="575" y="260" width="45" height="340" fill="%231a202c" opacity="0.7"/><rect x="630" y="300" width="35" height="300" fill="%23171923" opacity="0.6"/><rect x="675" y="240" width="60" height="360" fill="%231a202c" opacity="0.7"/><circle cx="120" cy="330" r="2" fill="%233182ce" opacity="0.8"/><circle cx="240" cy="300" r="2" fill="%233182ce" opacity="0.8"/><circle cx="360" cy="280" r="2" fill="%233182ce" opacity="0.8"/><circle cx="480" cy="260" r="2" fill="%233182ce" opacity="0.8"/><circle cx="600" cy="240" r="2" fill="%233182ce" opacity="0.8"/><circle cx="720" cy="220" r="2" fill="%233182ce" opacity="0.8"/></svg>') center/cover;
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%231a202c;stop-opacity:1" /><stop offset="50%" style="stop-color:%232d3748;stop-opacity:1" /><stop offset="100%" style="stop-color:%234a5568;stop-opacity:1" /></linearGradient></defs><rect width="800" height="600" fill="url(%23bg)"/></svg>') center/cover;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -163,6 +164,35 @@
         .form-header p {
             color: var(--text-muted);
             font-size: 0.95rem;
+        }
+
+        /* NUOVO: Selector per tipo di login */
+        .login-type-selector {
+            display: flex;
+            background: var(--glass-bg);
+            border-radius: 8px;
+            padding: 0.25rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .login-type-btn {
+            flex: 1;
+            padding: 0.75rem;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .login-type-btn.active {
+            background: var(--accent-blue);
+            color: white;
+            box-shadow: 0 2px 4px rgba(49, 130, 206, 0.3);
         }
 
         .demo-credentials {
@@ -421,26 +451,63 @@
                     <p>Inserire le credenziali per accedere al sistema</p>
                 </div>
 
-                <div class="demo-credentials" onclick="fillDemoCredentials()">
-                    <h4>Credenziali Demo</h4>
-                    <p><strong>Badge:</strong> LS-5067</p>
+                <!-- NUOVO: Selector tipo di login -->
+                <div class="login-type-selector">
+                    <button type="button" class="login-type-btn active" data-type="user">
+                        <i class="fas fa-user"></i> Utente
+                    </button>
+                    <button type="button" class="login-type-btn" data-type="admin">
+                        <i class="fas fa-user-cog"></i> Super Admin
+                    </button>
+                </div>
+
+                <!-- Credenziali Demo User -->
+                <div class="demo-credentials" id="demo-user" onclick="fillDemoCredentials('user')">
+                    <h4>Credenziali Demo - Utente</h4>
+                    <p><strong>Badge:</strong> CHF-DEMO5067</p>
                     <p><strong>Password:</strong> admin123</p>
+                    <p style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.8;">Clicca per compilare automaticamente</p>
+                </div>
+
+                <!-- Credenziali Demo Admin -->
+                <div class="demo-credentials" id="demo-admin" style="display: none;" onclick="fillDemoCredentials('admin')">
+                    <h4>Credenziali Demo - Super Admin</h4>
+                    <p><strong>Username:</strong> superadmin</p>
+                    <p><strong>Password:</strong> SuperAdmin123!</p>
                     <p style="font-size: 0.75rem; margin-top: 0.5rem; opacity: 0.8;">Clicca per compilare automaticamente</p>
                 </div>
                 
                 <div class="error-message message" id="errorMessage"></div>
                 <div class="success-message message" id="successMessage"></div>
                 
-                <div class="form-group">
-                    <label for="badgeNumber">Numero Badge</label>
-                    <i class="fas fa-id-badge"></i>
-                    <input type="text" id="badgeNumber" name="badgeNumber" placeholder="ES: LS-1234" required>
+                <!-- Campi User -->
+                <div id="user-fields">
+                    <div class="form-group">
+                        <label for="badgeNumber">Numero Badge</label>
+                        <i class="fas fa-id-badge"></i>
+                        <input type="text" id="badgeNumber" name="badgeNumber" placeholder="ES: CHF-DEMO5067" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="Inserire password" required>
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="password" name="password" placeholder="Inserire password" required>
+
+                <!-- Campi Admin -->
+                <div id="admin-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <i class="fas fa-user-cog"></i>
+                        <input type="text" id="username" name="username" placeholder="Username Super Admin" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="adminPassword">Password</label>
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="adminPassword" name="adminPassword" placeholder="Password Super Admin" required>
+                    </div>
                 </div>
                 
                 <button type="submit" class="login-button" id="loginButton">
@@ -465,36 +532,40 @@
     </div>
 
     <script>
-        // Auth Manager per comunicazione con backend
+        // Auth Manager per comunicazione con backend AGGIORNATO
         class AuthManager {
             constructor() {
                 this.apiUrl = 'https://lspd-bankend.onrender.com/api';
                 this.token = localStorage.getItem('lspd_token');
                 this.user = JSON.parse(localStorage.getItem('lspd_user') || 'null');
+                this.currentLoginType = 'user'; // 'user' o 'admin'
             }
 
-            async login(badgeNumber, password) {
+            async login(credentials) {
                 try {
-                    const response = await fetch(`${this.apiUrl}/auth/login`, {
+                    const endpoint = this.currentLoginType === 'admin' ? '/admin/login' : '/auth/login';
+                    
+                    const response = await fetch(`${this.apiUrl}${endpoint}`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ badgeNumber, password })
+                        body: JSON.stringify(credentials)
                     });
 
                     const data = await response.json();
 
                     if (response.ok) {
                         this.token = data.token;
-                        this.user = data.user;
+                        this.user = data.user || data.admin;
                         
                         localStorage.setItem('lspd_token', this.token);
                         localStorage.setItem('lspd_user', JSON.stringify(this.user));
+                        localStorage.setItem('lspd_user_type', this.currentLoginType);
                         
                         return { success: true, user: this.user };
                     } else {
-                        return { success: false, message: data.message };
+                        return { success: false, message: data.error };
                     }
                 } catch (error) {
                     console.error('Login error:', error);
@@ -505,6 +576,10 @@
             isAuthenticated() {
                 return !!this.token && !!this.user;
             }
+
+            setLoginType(type) {
+                this.currentLoginType = type;
+            }
         }
 
         const auth = new AuthManager();
@@ -514,17 +589,58 @@
             document.getElementById('successMessage').textContent = 'Accesso già effettuato. Reindirizzamento...';
             document.getElementById('successMessage').style.display = 'block';
             setTimeout(() => {
-                window.location.href = 'dashboard.html';
+                const userType = localStorage.getItem('lspd_user_type');
+                if (userType === 'admin') {
+                    window.location.href = 'admin-panel.html';
+                } else {
+                    window.location.href = 'dashboard.html';
+                }
             }, 2000);
         }
 
+        // Setup login type selector
+        document.querySelectorAll('.login-type-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const type = btn.dataset.type;
+                
+                // Update active button
+                document.querySelectorAll('.login-type-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Show/hide appropriate fields and demo
+                if (type === 'admin') {
+                    document.getElementById('user-fields').style.display = 'none';
+                    document.getElementById('admin-fields').style.display = 'block';
+                    document.getElementById('demo-user').style.display = 'none';
+                    document.getElementById('demo-admin').style.display = 'block';
+                } else {
+                    document.getElementById('user-fields').style.display = 'block';
+                    document.getElementById('admin-fields').style.display = 'none';
+                    document.getElementById('demo-user').style.display = 'block';
+                    document.getElementById('demo-admin').style.display = 'none';
+                }
+                
+                auth.setLoginType(type);
+                
+                // Clear form
+                document.getElementById('loginForm').reset();
+                document.getElementById('errorMessage').style.display = 'none';
+                document.getElementById('successMessage').style.display = 'none';
+            });
+        });
+
         // Fill demo credentials
-        function fillDemoCredentials() {
-            document.getElementById('badgeNumber').value = 'LS-5067';
-            document.getElementById('password').value = 'admin123';
+        function fillDemoCredentials(type) {
+            if (type === 'user') {
+                document.getElementById('badgeNumber').value = 'CHF-DEMO5067';
+                document.getElementById('password').value = 'admin123';
+            } else {
+                document.getElementById('username').value = 'superadmin';
+                document.getElementById('adminPassword').value = 'SuperAdmin123!';
+            }
             
             // Add visual feedback
-            const demoBox = document.querySelector('.demo-credentials');
+            const demoBox = document.querySelector(`#demo-${type}`);
             demoBox.style.background = 'linear-gradient(135deg, rgba(56, 161, 105, 0.1) 0%, rgba(56, 161, 105, 0.05) 100%)';
             demoBox.style.borderColor = 'rgba(56, 161, 105, 0.3)';
             
@@ -538,8 +654,6 @@
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const badgeNumber = document.getElementById('badgeNumber').value.trim();
-            const password = document.getElementById('password').value;
             const errorDiv = document.getElementById('errorMessage');
             const successDiv = document.getElementById('successMessage');
             const loginButton = document.getElementById('loginButton');
@@ -550,11 +664,30 @@
             errorDiv.style.display = 'none';
             successDiv.style.display = 'none';
             
-            // Validation
-            if (!badgeNumber || !password) {
-                errorDiv.textContent = 'Inserire numero badge e password';
-                errorDiv.style.display = 'block';
-                return;
+            let credentials = {};
+            
+            if (auth.currentLoginType === 'admin') {
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('adminPassword').value;
+                
+                if (!username || !password) {
+                    errorDiv.textContent = 'Inserire username e password';
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+                
+                credentials = { username, password };
+            } else {
+                const badgeNumber = document.getElementById('badgeNumber').value.trim();
+                const password = document.getElementById('password').value;
+                
+                if (!badgeNumber || !password) {
+                    errorDiv.textContent = 'Inserire numero badge e password';
+                    errorDiv.style.display = 'block';
+                    return;
+                }
+                
+                credentials = { badge: badgeNumber, password };
             }
             
             // Show loading state
@@ -563,14 +696,18 @@
             loginButton.disabled = true;
             
             try {
-                const result = await auth.login(badgeNumber, password);
+                const result = await auth.login(credentials);
                 
                 if (result.success) {
                     successDiv.textContent = `Accesso effettuato. Benvenuto ${result.user.firstName}!`;
                     successDiv.style.display = 'block';
                     
                     setTimeout(() => {
-                        window.location.href = 'dashboard.html';
+                        if (auth.currentLoginType === 'admin') {
+                            window.location.href = 'admin-panel.html';
+                        } else {
+                            window.location.href = 'dashboard.html';
+                        }
                     }, 1500);
                 } else {
                     errorDiv.textContent = result.message || 'Credenziali non valide';
@@ -591,8 +728,12 @@
             let value = e.target.value.toUpperCase();
             value = value.replace(/[^A-Z0-9-]/g, '');
             
-            if (value.length > 2 && !value.includes('-')) {
-                value = value.substring(0, 2) + '-' + value.substring(2);
+            if (value.length > 3 && !value.includes('-') && value.match(/[A-Z]{2,3}/)) {
+                const letters = value.match(/[A-Z]+/)[0];
+                const numbers = value.replace(/[A-Z]/g, '');
+                if (numbers) {
+                    value = letters + '-' + numbers;
+                }
             }
             
             e.target.value = value;
